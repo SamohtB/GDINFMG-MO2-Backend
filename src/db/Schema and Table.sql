@@ -3,18 +3,6 @@ CREATE SCHEMA IF NOT EXISTS pokemon_unite;
 
 USE pokemon_unite;
 
-SET FOREIGN_KEY_CHECKS = 0;
-drop table if exists Pokemon;
-drop table if exists Stats;
-drop table if exists Skill;
-drop table if exists HeldItem;
-drop table if exists BattleItem;
-drop table if exists BoostEmblem;
-drop table if exists EmblemSlot;
-drop table if exists EmblemLoadout;
-drop table if exists PokemonBuild;
-SET FOREIGN_KEY_CHECKS = 1;
-
 CREATE TABLE IF NOT EXISTS Pokemon
 (
 	pokemonid INT NOT NULL UNIQUE AUTO_INCREMENT,
@@ -22,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Pokemon
     sprite BLOB,
     attacktype ENUM('PHYSICAL','SPECIAL') NOT NULL,
 	attackstyle ENUM('MELEE', 'RANGED') NOT NULL,
-    role ENUM('Attacker', 'Defender', 'All-Rounder', 'Support', 'Speedster') NOT NULL,
+    role ENUM('Attacker', 'Defender', 'All-Rounder', 'Supporter', 'Speedster') NOT NULL,
     complexity ENUM('Novice', 'Intermediate', 'Expert') NOT NULL,
     stats INT,
 	CONSTRAINT `pokemon_pk_name` PRIMARY KEY (pokemonid)
@@ -40,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Stats
     criticalrate FLOAT NOT NULL,
     cooldownredux FLOAT NOT NULL,
     lifesteal FLOAT NOT NULL,
-    attackspeed FLOAT NOT NULL,
+    attackspeed FLOAT,
     CONSTRAINT `stats_pk_owner&level` PRIMARY KEY (ownerid, level),
     CONSTRAINT `stats_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid)
 );

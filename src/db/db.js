@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 
 function GetAllPokemon(callback) 
 {
-    const stmt = `SELECT name FROM Pokemon`;
+    const stmt = `SELECT name FROM Pokemon INNER JOIN Stats ON Pokemon.pokemonid = Stats.ownerid`;
     pool.query(stmt, callback);
 }
 
@@ -21,8 +21,22 @@ function GetPokemon(id, callback)
     pool.query(stmt, id, callback);
 }
 
+function GetAllBattleItems(callback)
+{
+    const stmt = `SELECT name FROM BattleItem`;
+    pool.query(stmt, callback);
+}
+
+function GetBattleItem(id, callback)
+{
+    const stmt = `SELECT name FROM BattleItem WHERE battleid = ?`;
+    pool.query(stmt, id, callback);
+}
+
 module.exports = 
 {
     AllPokemon: GetAllPokemon,
     OnePokemon: GetPokemon,
+    AllBattle: GetAllBattleItems,
+    OneBattle: GetBattleItem
 }
