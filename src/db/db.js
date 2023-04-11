@@ -15,7 +15,14 @@ function GetAllPokemon(callback)
     pool.query(stmt, callback);
 }
 
+function GetPokemon(id, callback)
+{
+    const stmt = `SELECT * FROM Pokemon WHERE pokemonid = ??`;
+    pool.query(stmt, id, callback);
+}
+
 module.exports = 
 {
     AllPokemon: GetAllPokemon,
+    OnePokemon: GetPokemon,
 }
