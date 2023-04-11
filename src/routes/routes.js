@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get("/pokemon", (req, res) => 
 {
+    console.log("CONNECTED!");
     const pokemon = db.AllPokemon(function(err, results)
     {
         if(err)
@@ -51,6 +52,5 @@ router.get("/BattleItem", (req, res) =>
         res.json(results);
     })
 })
-
 
 module.exports = router;
