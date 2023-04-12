@@ -19,10 +19,10 @@ shell.on('message', function(message){
   pool.connect(function(err) {  
 
     if (err) throw err;   
-    sql = "INSERT INTO Stats(ownerid, level, HP, ATK, DEF, SpA, SpD, criticalrate, cooldownredux, lifesteal, attackspeed) VALUES ROW (?)";
+    sql = "INSERT INTO Stats(ownerid, level, HP, ATK, DEF, SpA, SpD, criticalrate, cooldownredux, lifesteal) VALUES ROW (?)";
     message = JSON.parse(message);
     values = [message["ownerid"], message["level"], message["HP"], message["ATK"], message["DEF"], message["SpA"], message["SpD"], 
-              message["criticalrate"], message["cooldownredux"], message["lifesteal"], message["attackspeed"]];
+              message["criticalrate"], message["cooldownredux"], message["lifesteal"]];
     pool.query(sql, [values], function (err, result) {
       if(err)
       {

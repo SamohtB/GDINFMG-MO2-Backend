@@ -5,8 +5,6 @@ unite_db = UniteDb()
 
 pokemon_list = []
 
-print(unite_db.held_items[0].name);
-
 for pokemon in unite_db.pokemon:
     
     element = {
