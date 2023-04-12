@@ -1,37 +1,37 @@
 const mysql = require('mysql2');
 require("dotenv").config();
 
-const pool = mysql.createPool({
+const pool = mysql.createConnection({
     host: process.env.SQL_HOST,
     user: 'root',
     password: process.env.SQL_PASSWORD,
-    port: process.env.PORT,
     database: process.env.SQL_DB,
-    connectionLimit: 10,
-    connectTimeout: 5000
 });
 
 function GetAllPokemon(callback) 
 {
-    const stmt = `SELECT name FROM Pokemon INNER JOIN Stats ON Pokemon.pokemonid = Stats.ownerid`;
-    pool.query(stmt, callback);
+    //Add sprite later
+    const stmt = `SELECT pokemonid, name FROM Pokemon`;
+    results = pool.query(stmt, callback);
 }
 
 function GetPokemon(id, callback)
 {
-    const stmt = `SELECT * FROM Pokemon WHERE pokemonid = ?`;
+    const stmt = `SELECT * FROM Pokemon INNER JOIN Stats ON Pokemon.pokemonid = Stats.ownerid 
+    WHERE pokemonid = ? AND Stats.level = ?`;
     pool.query(stmt, id, callback);
 }
 
 function GetAllBattleItems(callback)
 {
-    const stmt = `SELECT name FROM BattleItem`;
+    //Add sprite later
+    const stmt = `SELECT battleid, name FROM BattleItem`;
     pool.query(stmt, callback);
 }
 
 function GetBattleItem(id, callback)
 {
-    const stmt = `SELECT name FROM BattleItem WHERE battleid = ?`;
+    const stmt = `SELECT * FROM BattleItem WHERE battleid = ?`;
     pool.query(stmt, id, callback);
 }
 
