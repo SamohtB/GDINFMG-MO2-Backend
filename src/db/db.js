@@ -35,10 +35,25 @@ function GetBattleItem(id, callback)
     pool.query(stmt, id, callback);
 }
 
+function GetAllHeldItems(callback)
+{
+    //Add sprite later
+    const stmt = `SELECT heldid, name FROM HeldItem`;
+    pool.query(stmt, callback);
+}
+
+function GetHeldItem(id, callback)
+{
+    const stmt = `SELECT * FROM HeldItem WHERE heldid = ?`;
+    pool.query(stmt, id, callback);
+}
+
 module.exports = 
 {
     AllPokemon: GetAllPokemon,
     OnePokemon: GetPokemon,
     AllBattle: GetAllBattleItems,
-    OneBattle: GetBattleItem
+    OneBattle: GetBattleItem,
+    AllHeld: GetAllHeldItems,
+    OneHeld: GetHeldItem
 }

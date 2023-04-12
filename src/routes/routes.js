@@ -63,4 +63,35 @@ router.get("/BattleItem/:BattleId", (req, res) =>
     })
 });
 
+router.get("/HeldItem",(req, res) =>
+{
+    const item = db.AllHeld(function(err, results, fields)
+    {
+        if(err)
+        {
+            console.error("An error occured: ", err);
+            return res.status(500).send("Error fetching Held Items");
+        }
+
+        console.log("get all held items query successful: ", results);
+        res.json(results);
+    });
+});
+
+router.get("/HeldItem/:HeldId", (req, res) =>
+{
+    values = [req.params.HeldId];
+    const pokemon = db.OneBattle(values, function(err, results, fields)
+    {
+        if(err)
+        {
+            console.error("An error occured: ", err);
+            return res.status(500).send("Error fetching held item");
+        }
+
+        console.log("get one held query successful: ", results);
+        res.json(results);
+    })
+});
+
 module.exports = router;
