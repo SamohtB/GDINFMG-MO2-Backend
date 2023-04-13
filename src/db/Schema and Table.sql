@@ -7,12 +7,11 @@ CREATE TABLE IF NOT EXISTS Pokemon
 (
 	pokemonid INT NOT NULL UNIQUE AUTO_INCREMENT,
     name VARCHAR(12) NOT NULL UNIQUE,
-    sprite BLOB,
+    sprite BLOB NOT NULL,
     attacktype ENUM('PHYSICAL','SPECIAL') NOT NULL,
 	attackstyle ENUM('MELEE', 'RANGED') NOT NULL,
     role ENUM('Attacker', 'Defender', 'All-Rounder', 'Supporter', 'Speedster') NOT NULL,
     complexity ENUM('Novice', 'Intermediate', 'Expert') NOT NULL,
-    stats INT,
 	CONSTRAINT `pokemon_pk_name` PRIMARY KEY (pokemonid)
 );
 
@@ -28,7 +27,6 @@ CREATE TABLE IF NOT EXISTS Stats
     criticalrate FLOAT NOT NULL,
     cooldownredux FLOAT NOT NULL,
     lifesteal FLOAT NOT NULL,
-    attackspeed FLOAT,
     CONSTRAINT `stats_pk_owner&level` PRIMARY KEY (ownerid, level),
     CONSTRAINT `stats_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid)
 );

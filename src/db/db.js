@@ -11,7 +11,7 @@ const pool = mysql.createConnection({
 function GetAllPokemon(callback) 
 {
     //Add sprite later
-    const stmt = `SELECT pokemonid, name FROM Pokemon`;
+    const stmt = `SELECT pokemonid, name, sprite FROM Pokemon`;
     pool.query(stmt, callback);
 }
 
@@ -54,7 +54,7 @@ function GetFilteredPokemon(values, callback)
     '(' + stylestmt + ')' : ''} ${rolestmt ? ((typestmt || stylestmt) ? 'AND ' : '') + '(' + rolestmt + ')' : ''} 
     ${complexstmt ? ((typestmt || stylestmt || rolestmt) ? 'AND ' : '') + '(' + complexstmt + ')' : ''}`;
     console.log(whereClause);
-    const basestmt = `SELECT P1.pokemonid, P1.name FROM Pokemon P1 WHERE P1.pokemonid IN (SELECT P2.pokemonid FROM pokemon P2 WHERE ${whereClause})`;
+    const basestmt = `SELECT P1.pokemonid, P1.name, P1.sprite FROM Pokemon P1 WHERE P1.pokemonid IN (SELECT P2.pokemonid FROM pokemon P2 WHERE ${whereClause})`;
     pool.query(basestmt, filterparams, callback);
 }
 
