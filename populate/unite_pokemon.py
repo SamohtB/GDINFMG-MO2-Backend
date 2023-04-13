@@ -7,13 +7,16 @@ pokemon_list = []
 
 for pokemon in unite_db.pokemon:
     
-    element = {
+    if pokemon.name != "Scyther":
+        
+        element = {
         "name" : pokemon.name,
         "sprite" : "LOAD_FILE('C:/Users/usr/Pictures/INFMG/Pokemon Icons/${pokemon.name}.png",
         "attack_type" : pokemon.damage_type,
         "attack_style" : pokemon.range,
         "role" : pokemon.role,
         "complexity" : pokemon.difficulty 
-    }
+        }
 
-    print(json.dumps(element))
+        print(json.dumps(element))
+    

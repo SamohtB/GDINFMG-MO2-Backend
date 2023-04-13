@@ -6,5 +6,6 @@ SELECT * FROM BattleItem;
 SELECT * FROM HeldItem;
 SELECT * FROM PokemonBuild;
 SELECT * FROM Skill;
+SELECT * FROM BoostEmblem;
 
 SELECT * FROM Pokemon JOIN Stats ON Pokemon.pokemonid = Stats.ownerid;

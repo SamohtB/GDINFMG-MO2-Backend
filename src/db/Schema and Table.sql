@@ -86,13 +86,13 @@ CREATE TABLE IF NOT EXISTS BoostEmblem
 	emblemid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	name VARCHAR(12) NOT NULL,
     sprite BLOB, 
-    Color1 ENUM('Blue','Grey') NOT NULL,
-    Color2 ENUM('Blue', 'Grey'),
+    Color1 ENUM('Black', 'Blue', 'Brown', 'Gray', 'Green', 'Navy', 'Pink', 'Purple', 'Red', 'White', 'Yellow') NOT NULL,
+    Color2 ENUM('Black', 'Blue', 'Brown', 'Gray', 'Green', 'Navy', 'Pink', 'Purple', 'Red', 'White', 'Yellow'),
     emblemtier ENUM('Bronze', 'Silver', 'Gold') NOT NULL,
-    AttribType1 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    AttribVal1 FLOAT NOT NULL,
-    AttribType2 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR'),
-    AttribVal2 FLOAT,
+    Attrib1Type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'Crit Rate', 'CDR') NOT NULL,
+    Attrib1Val FLOAT NOT NULL,
+    Attrib2Type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'Crit Rate', 'CDR'),
+    Attrib2Val FLOAT,
     CONSTRAINT `boostemblem_pk_id` PRIMARY KEY (emblemid)
 );
 
