@@ -35,18 +35,17 @@ CREATE TABLE IF NOT EXISTS Skill
 (
 	ownerid INT NOT NULL,
     name VARCHAR(40) NOT NULL,
-    skilltype ENUM('Ranged', 'Melee', 'Area', 'Hindrance', 'Dash', 'Buff', 'Debuff', 'Recovery', 'SureHit'),
+    skilltype ENUM('Ranged', 'Melee', 'Area', 'Hindrance', 'Dash', 'Buff', 'Debuff', 'Recovery', 'Sure Hit'),
     skillclass ENUM('Basic', 'Passive', 'Move1', 'Move2', 'Unite') NOT NULL,
     levelrequirement INT NOT NULL,
     cooldown INT,
-    statuseffect ENUM('Slow', 'Stun', 'Burn', 'Sleep', 'Buff', 'Heal'),
     skilltext TEXT NOT NULL,
-    attacktype ENUM('PHYSICAL','SPECIAL'),
+    attacktype ENUM('Physical', 'Special'),
     attackmultiplier FLOAT,
 	basemultiplier INT,
     basedamage INT,
     CONSTRAINT `skill_pk_owner&name` PRIMARY KEY (ownerid, name),
-    CONSTRAINT `skill_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid)
+    CONSTRAINT `skill_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS HeldItem
@@ -54,13 +53,20 @@ CREATE TABLE IF NOT EXISTS HeldItem
 	heldid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	name VARCHAR(20) NOT NULL UNIQUE,
     sprite BLOB,
-    tierlevel ENUM('1', '10', '20', '30') NOT NULL,
-    tierattribtype ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    tierval FLOAT NOT NULL,
-    attribtype1 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    attribval1 FLOAT NOT NULL,
-    attribtype2 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR'),
-    attribval2 FLOAT,
+    tierattribtype ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration') NOT NULL,
+    tier1val FLOAT NOT NULL,
+    tier10val FLOAT NOT NULL,
+    tier20val FLOAT NOT NULL,
+    attrib1type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration') NOT NULL,
+    attrib1val FLOAT NOT NULL,
+    attrib2type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration'),
+    attrib2val FLOAT,
     description TEXT NOT NULL,
     CONSTRAINT `helditem_pk_id` PRIMARY KEY (heldid)
 );
