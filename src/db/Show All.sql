@@ -1,6 +1,7 @@
 use pokemon_unite;
 
 SELECT * FROM Pokemon;
+SELECT COUNT(name) FROM Pokemon;
 SELECT * FROM Stats;
 SELECT * FROM BattleItem;
 SELECT * FROM HeldItem;
