@@ -7,6 +7,13 @@ let shell = new PythonShell('populate/unite_pokemon.py');
 
 options.JSON;
 
+const pool = mysql.createConnection({
+  host: process.env.SQL_HOST,
+  user: 'root',
+  password: process.env.SQL_PASSWORD,
+  database: process.env.SQL_DB
+});
+
 shell.on('message', function(message){
 
   pool.connect(function(err) {  
