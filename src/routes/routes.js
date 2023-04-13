@@ -1,11 +1,12 @@
 const express = require("express");
 const db = require("../db/db.js");
 const bodyParser = require("body-parser");
+const mysql = require('mysql2/promise');
 const router = express.Router();
 
 router.use(bodyParser.json());
 
-//all pokemon names
+//1 Get All Pokemon Sprites - For main pokemon list
 router.get("/pokemon", (req, res) => {
     const pokemon = db.AllPokemon(function(err, results, fields) 
     {
@@ -20,55 +21,62 @@ router.get("/pokemon", (req, res) => {
     });
 });
 
-//filtered pokemon
+//2 Get Filtered Pokemon and Count- When Filter is Called
 router.get("/pokemon/:AttackType.:AttackStyle.:Role.:Complexity", (req, res) => 
 {
-    values = [req.params.AttackType, req.params.AttackStyle, req.params.Role, req.params.Complexity];
-    const pokemon = db.FilteredPokemon(values, function(err, results, fields)
-    {
-        if(err)
-        {
-            console.error("An error occured: ", err);
-            return res.status(500).send("Error fetching Pokemon");
-        }
+    const filterValues = [req.params.AttackType, req.params.AttackStyle, req.params.Role, req.params.Complexity];
+    const promises = [
+        db.FilteredPokemon(filterValues),
+        db.FilteredCount(filterValues)
+    ];
 
-        console.log("get one pokemon query successful: ", results);
-        res.json(results);
-    })
+    Promise.all(promises)
+        .then((results) => {
+            const pokemon = results[0][0];
+            const count = results[1]
+            const response = {
+                pokemon : pokemon,
+                count : count
+            };
+        
+        console.log(response);
+        res.json(response);
+
+        })
+        .catch((error) => {
+            console.error("An error occured: ", error);
+            return res.status(500).send("Error fetching filtered Pokemon");
+        });
 });
 
-//single pokemon with stats at level 
-router.get("/pokemon/:PokemonId-:level", (req, res) => 
-{
-    values = [req.params.PokemonId, req.params.level];
-    const pokemon = db.OnePokemon(values, function(err, results, fields)
-    {
-        if(err)
-        {
-            console.error("An error occured: ", err);
-            return res.status(500).send("Error fetching Pokemon");
-        }
-
-        console.log("get one pokemon query successful: ", results);
-        res.json(results);
-    })
-});
-
-//single pokemon with stats
+//3 Get Specific Pokemon with stats and skills
 router.get("/pokemon/:PokemonId", (req, res) => 
 {
-    values = [req.params.PokemonId];
-    const pokemon = db.OnePokemonAllStats(values, function(err, results, fields)
-    {
-        if(err)
-        {
-            console.error("An error occured: ", err);
-            return res.status(500).send("Error fetching Pokemon");
-        }
+    const pokemonID = [req.params.PokemonId];
+    const promises = [
+        db.OnePokemon_Pokemon(pokemonID),
+        db.OnePokemon_Stats(pokemonID),
+        db.OnePokemon_Skills(pokemonID)
+    ];
 
-        console.log("get one pokemon query successful: ", results);
-        res.json(results);
-    })
+    Promise.all(promises)
+        .then((results) => {
+            const pokemon = results[0][0];
+            const stats = results[1];
+            const skills = results[2];
+            const response = {
+                pokemon : pokemon,
+                stats : stats,
+                skills : skills
+            };
+
+            console.log(response);
+            res.json(response);
+        })
+        .catch((error) => {
+            console.error("An error occured: ", error);
+            return res.status(500).send("Error fetching Pokemon");
+        });
 });
 
 router.get("/BattleItem", (req, res) => 
