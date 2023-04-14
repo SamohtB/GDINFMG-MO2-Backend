@@ -31,7 +31,7 @@
 
 //    public static GameMaster Instance
 //    {
-//        get;  private set;
+//        get; private set;
 //    }
 
 //    public bool IsInCombat
@@ -164,7 +164,7 @@
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
-              
+
 
 //                Dictionary<string, object> championData = JsonConvert.
 //                   DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
@@ -172,7 +172,7 @@
 //                string enemName = championData["name"].ToString();
 
 //                Debug.Log($"Message: Find Enemy{championData["level"].GetType()}");
-                
+
 //                int enemLevel = System.Convert.ToInt32(championData["level"]);
 //                int enemHp = System.Convert.ToInt32(championData["hp"]);
 //                int enemStr = System.Convert.ToInt32(championData["str"]);
@@ -298,7 +298,7 @@
 
 //        //Turns dictionary into a JSON String
 //        string requestString = JsonConvert.SerializeObject(charaterData);
-       
+
 //        //Convert the string into bytes
 //        byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
@@ -327,8 +327,8 @@
 //            }
 
 //            //request
-//           Dictionary<string, object> championData = JsonConvert.
-//                   DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
+//            Dictionary<string, object> championData = JsonConvert.
+//                    DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
 
 
 //            Debug.Log($"New ID: {championData["objectId"].ToString()}");
@@ -338,7 +338,7 @@
 //        }
 
 
-        
+
 
 
 
@@ -401,7 +401,7 @@
 
 //    IEnumerator PostIncrementVictoryPlayerData(string objID)
 //    {
-        
+
 
 //        Dictionary<string, object> charaterData = new Dictionary<string, object>();
 

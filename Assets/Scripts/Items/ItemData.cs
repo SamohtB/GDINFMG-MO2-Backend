@@ -58,10 +58,10 @@ public class ItemData : MonoBehaviour
     {
         GameObject copy = Instantiate(spawnableHeldImage);
 
-        if (copy.GetComponent<PokemonImageData>() == null)
+        if (copy.GetComponent<HeldItemImageData>() == null)
             Debug.LogError("Missing Held Item Data Component");
         else
-            copy.GetComponent<PokemonImageData>().OnRegisterName(pokemonName);
+            copy.GetComponent<HeldItemImageData>().OnRegisterName(pokemonName);
 
         copy.transform.SetParent(spawnHeldLocation.transform, false);
         heldItemHolder.Add(copy);
@@ -71,10 +71,10 @@ public class ItemData : MonoBehaviour
     {
         GameObject copy = Instantiate(spawnableBattleImage);
 
-        if (copy.GetComponent<PokemonImageData>() == null)
+        if (copy.GetComponent<BattleItemImageData>() == null)
             Debug.LogError("Missing  Battle Item Data Component");
         else
-            copy.GetComponent<PokemonImageData>().OnRegisterName(pokemonName);
+            copy.GetComponent<BattleItemImageData>().OnRegisterName(pokemonName);
 
         copy.transform.SetParent(spawnHeldLocation.transform, false);
         heldItemHolder.Add(copy);

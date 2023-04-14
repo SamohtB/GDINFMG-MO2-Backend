@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PokemonImageData : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class PokemonImageData : MonoBehaviour
     public void OnRegisterName(string name)
     {
         pokemonName = name;
+        if (this.gameObject.GetComponent<Image>() == null)
+            Debug.LogError("No Image Component Found");
+
+        else
+        {
+            this.gameObject.GetComponent<Image>().sprite = BattleImageManager.Instance.RetrieveSprite(name);
+        }
+
     }
 
 

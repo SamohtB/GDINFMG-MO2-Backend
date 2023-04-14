@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HeldItemImageData : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class HeldItemImageData : MonoBehaviour
     public void OnRegisterName(string name)
     {
         heldItemName = name;
+        if (this.gameObject.GetComponent<Image>() == null)
+            Debug.LogError("No Image Component Found");
+
+        else
+        {
+            this.gameObject.GetComponent<Image>().sprite = HeldImageManager.Instance.RetrieveSprite(name);
+        }
     }
 
 

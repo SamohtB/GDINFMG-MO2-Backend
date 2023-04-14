@@ -63,7 +63,7 @@ public class BattleImageManager : MonoBehaviour
 
         if (copySprite == null)
         {
-            Debug.LogError("Missing Retrieval Reference Pokemon Image");
+            Debug.LogError("Missing Retrieval Reference Battle  Image");
             return null;
         }
 

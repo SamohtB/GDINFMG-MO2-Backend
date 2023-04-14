@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoostEmblemImageData : MonoBehaviour
 {
@@ -10,12 +11,22 @@ public class BoostEmblemImageData : MonoBehaviour
     public void OnRegisterName(string name)
     {
         boostEmblemName = name;
+        if (this.gameObject.GetComponent<Image>() == null)
+            Debug.LogError("No Image Component Found");
+
+        else
+        {
+            this.gameObject.GetComponent<Image>().sprite = EmblemImageManager.Instance.RetrieveSprite(name);
+        }
     }
 
 
     //For Event Trigger Point Click
-    public void OnClick()
+    public void OnSelectItemData()
     {
-        //Do SomeSinglePattern that reference the pokemon name
+        //Activate the Web Request for three kinds of image
+
     }
+
+
 }

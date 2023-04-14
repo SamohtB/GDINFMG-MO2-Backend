@@ -22,8 +22,8 @@ public class BuildData : MonoBehaviour
     [SerializeField] private BattleItemImageData bItem1;
 
     [Header("Emblem Information")]
-    [SerializeField] private List<BoostEmblem> data;
-    [SerializeField] private List<BoostEmblem> data2;
+    [SerializeField] private List<GameObject> data; //Create Another Emblem Class
+    [SerializeField] private List<GameObject> data2;
 
 
 

@@ -97,6 +97,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = pokemonOverviewTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+        CheckPopupTab();
     }
 
     public void OnSwitchItemSection()
@@ -104,6 +106,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = itemOverviewTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+        CheckPopupTab();
     }
 
     public void OnSwitchEmblemSection()
@@ -111,6 +115,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = boostEmblemTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+        CheckPopupTab();
     }
 
     public void OnSwitchBuild()
@@ -118,6 +124,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = buildTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+        CheckPopupTab();
     }
 
     public void OnSwitchDamageCalculator()
@@ -125,6 +133,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = damageTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+        CheckPopupTab();
     }
 
     //=============================== Detail Section ========================///
@@ -135,6 +145,8 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab = pokemonDetailsTab;
         DisableAllTab();
         activeTab.SetActive(true);
+
+
     }
 
 
@@ -163,6 +175,12 @@ public class MainUIBehaviour : MonoBehaviour
     {
         fromTab.SetActive(false);
         toTab.SetActive(true);
+    }
+
+    public void CheckPopupTab()
+    {
+        if (popUpTab.activeInHierarchy)
+            popUpTab.SetActive(false);
     }
     
 

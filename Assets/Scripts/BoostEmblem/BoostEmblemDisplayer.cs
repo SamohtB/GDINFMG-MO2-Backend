@@ -18,9 +18,9 @@ public class BoostEmblemDisplayer : MonoBehaviour
 
         //Call the single function to return the intended request
         /*Ex. bronzeVariant.OnRegist*/
-        bronzeVariant.OnRegisterName(null);
-        silverVariant.OnRegisterName(null);
-        goldVariant.OnRegisterName(null);
+        bronzeVariant.OnRegisterName(emblemName);
+        silverVariant.OnRegisterName(emblemName);
+        goldVariant.OnRegisterName(emblemName);
     }
 
    

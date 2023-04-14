@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+using System.Text;
 
 public class BoostEmblemBreakdown : MonoBehaviour
 {
@@ -11,28 +14,37 @@ public class BoostEmblemBreakdown : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stats1Txt;
     [SerializeField] private TextMeshProUGUI stats2Txt;
 
-    public void OnRegisterName(Dictionary<string, object> HeldItemData)
+    private string name = "";
+
+    public void OnRegisterName(string boostEmblemName)
     {
 
-        if (HeldItemData == null)
-            Debug.LogError("No HeldItem Data");
+        if (boostEmblemName == "")
+            Debug.LogError("No HeldItem Name");
         else
         {
             //Use Singleton Pattern to create find the image,
-            string heldItemName = "";
+             name = boostEmblemName;
 
             //Change the image
-            emblemImage.sprite = null;
-
-            //Alter the stats
-            OnCheckValue(stats1Txt, "", 0f);
-            OnCheckValue(stats2Txt, "", 0f);
-
-
-            //stats1Txt.text = "";
-            //stats2Txt.text = "";
+            emblemImage.sprite = EmblemImageManager.Instance.RetrieveSprite(boostEmblemName);
         }
 
+    }
+
+    public void OnUpdateValue(Dictionary<string, object> HeldItemData)
+    {
+        if (HeldItemData == null)
+            Debug.LogError("No HeldItem Item");
+        else
+        {
+            //Alter the stats
+            OnCheckValue(stats1Txt, HeldItemData["AttribType"].ToString(), (float)System.Convert.ToDouble(HeldItemData["data"]));
+            OnCheckValue(stats2Txt, HeldItemData["AttribType"].ToString(), (float)System.Convert.ToDouble(HeldItemData["data"]));
+
+        }
+        //stats1Txt.text = "";
+        //stats2Txt.text = "";
     }
 
     private void OnCheckValue(TextMeshProUGUI dataLabel, string dataType, float data)
