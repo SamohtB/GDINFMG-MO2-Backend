@@ -75,49 +75,49 @@
 //        IsInCombat = false;
 //        if (isPlayerWinner)
 //        {
-//            // If player wins
+//             If player wins
 //            lastLevelDefeated += 1;
-//            // Handle result
+//             Handle result
 
 //            if (player.GetCurHP() >= player.GetCharacterStats().GetHP() * 0.5)
 //            {
-//                // Overwhelming Victory
+//                 Overwhelming Victory
 //                results.DisplayResult(CombatResult.VICTORY_OVERWHELM);
-//                // Adds two levels above the player's current level (after levelling up)
+//                 Adds two levels above the player's current level (after levelling up)
 //                lastLevelDefeated = player.GetCharacterStats().level + 3;
 //            }
 //            else
 //            {
-//                // Regular Victory
+//                 Regular Victory
 //                results.DisplayResult(CombatResult.VICTORY);
 //                hasEnemyLoaded = false;
 //                if (!player.IsAwardedExp(WINNER_XP))
 //                    ResetCombat();
 //            }
 
-//            // Upload player data
+//             Upload player data
 //            if (player.objectId == "")
 //            {
-//                // TODO: send a POST request to send the player name and stats. Then assign returned objectID to this player's objectID property
+//                 TODO: send a POST request to send the player name and stats. Then assign returned objectID to this player's objectID property
 //                StartCoroutine(UploadNewPlayerData(player));
 //            }
 //            else
 //            {
-//                // TODO: using the existing objectID, send a PATCH request to update the player stats.
+//                 TODO: using the existing objectID, send a PATCH request to update the player stats.
 
 //                StartCoroutine(PatchPlayerData(player));
 //            }
 //        }
 //        else
 //        {
-//            // If player loses
+//             If player loses
 //            if (enemy.objectId != "")
 //            {
 //                string objId = enemy.objectId;
-//                // If the player lost to a champion from the leaderboard
-//                // TODO: send a POST request to increment the victory count of that champion
+//                 If the player lost to a champion from the leaderboard
+//                 TODO: send a POST request to increment the victory count of that champion
 
-//                //My Task create a IEnumerator for victory
+//                My Task create a IEnumerator for victory
 
 //                StartCoroutine(PostIncrementVictoryPlayerData(objId));
 
@@ -136,20 +136,20 @@
 //        StartCoroutine(GetEnemyStatsCoroutine(lastLevelDefeated));
 //    }
 
-//    /// <summary>
-//    /// Coroutine that sends a GET request to get an enemy profile from the database, which matches the specified level. 
-//    /// Once data is retrieved, the stats are assigned to the enemy via `SetCharacterStats(CharacterStats)`, and combatBtn is set to be interactable.
-//    /// If no matches are found, a basic Character is returned by the API instead, named "Unknown Champion". This Champion will not have an object ID as it does not exist in the database.
-//    /// </summary>
-//    /// <param name="level"></param>
-//    /// <returns></returns>
+//    / <summary>
+//    / Coroutine that sends a GET request to get an enemy profile from the database, which matches the specified level. 
+//    / Once data is retrieved, the stats are assigned to the enemy via `SetCharacterStats(CharacterStats)`, and combatBtn is set to be interactable.
+//    / If no matches are found, a basic Character is returned by the API instead, named "Unknown Champion". This Champion will not have an object ID as it does not exist in the database.
+//    / </summary>
+//    / <param name="level"></param>
+//    / <returns></returns>
 //    IEnumerator GetEnemyStatsCoroutine(int level)
 //    {
-//        // TODO: send a GET request to get an enemy profile from the database. Once data is retrieved
-//        // Hint 1 : Use Dictionary<string, object> for different datatypes
-//        // Hint 2 : For downloaded data, use Convert.ToString(x) / Convert.ToInt32(x) to convert from object to string / integer
+//         TODO: send a GET request to get an enemy profile from the database. Once data is retrieved
+//         Hint 1 : Use Dictionary<string, object> for different datatypes
+//         Hint 2 : For downloaded data, use Convert.ToString(x) / Convert.ToInt32(x) to convert from object to string / integer
 
-//        //4
+//        4
 //        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/{level.ToString()}", "GET"))
 //        {
 //            Debug.Log((BaseURL + $"/{level.ToString()}"));
@@ -160,7 +160,7 @@
 
 //            Debug.Log($"Get all players response code: {request.responseCode}");
 
-//            //Check if have errors;
+//            Check if have errors;
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
@@ -185,7 +185,7 @@
 
 //            }
 
-//            //If No Data Found
+//            If No Data Found
 //            else
 //            {
 
@@ -194,7 +194,7 @@
 
 //        }
 
-//        //throw new NotImplementedException();
+//        throw new NotImplementedException();
 
 //        combatBtn.interactable = true;
 //        hasEnemyLoaded = true;
@@ -225,20 +225,20 @@
 
 //    IEnumerator VanquishEnemyCoroutine(string objectId)
 //    {
-//        // TODO: send a DELETE request that would vanquish the current enemy with the given objectId. If the enemy does not have an object Id (i.e., unknown champion), do nothing.
-//        // Hint: Use Dictionary<string, object> for different datatypes
+//         TODO: send a DELETE request that would vanquish the current enemy with the given objectId. If the enemy does not have an object Id (i.e., unknown champion), do nothing.
+//         Hint: Use Dictionary<string, object> for different datatypes
 
-//        //5
+//        5
 
 //        Dictionary<string, object> charaterData = new Dictionary<string, object>();
 
 //        charaterData.Add("objId", objectId);
 
 
-//        //Turns dictionary into a JSON String
+//        Turns dictionary into a JSON String
 //        string requestString = JsonConvert.SerializeObject(charaterData);
 
-//        //Convert the string into bytes
+//        Convert the string into bytes
 //        byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
 
@@ -254,7 +254,7 @@
 
 //            Debug.Log($"Response Code: {request.responseCode}");
 
-//            //Check if have errors;
+//            Check if have errors;
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
@@ -271,12 +271,12 @@
 
 
 
-//        // After everything has been processed successfully:
+//         After everything has been processed successfully:
 //        hasEnemyLoaded = false;
 //        if (!player.IsAwardedExp(WINNER_XP))
 //            ResetCombat();
 
-//        //throw new NotImplementedException();
+//        throw new NotImplementedException();
 //        yield return null;
 
 //    }
@@ -286,7 +286,7 @@
 //    {
 //        CharacterStats characterUploadData = playerData.GetCharacterStats();
 
-//        //Dictionary to contain the parameters to create a player;
+//        Dictionary to contain the parameters to create a player;
 //        Dictionary<string, object> charaterData = new Dictionary<string, object>();
 
 //        charaterData.Add("name", characterUploadData.GetName());
@@ -296,10 +296,10 @@
 //        charaterData.Add("dex", characterUploadData.GetDEX());
 
 
-//        //Turns dictionary into a JSON String
+//        Turns dictionary into a JSON String
 //        string requestString = JsonConvert.SerializeObject(charaterData);
 
-//        //Convert the string into bytes
+//        Convert the string into bytes
 //        byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
 
@@ -315,7 +315,7 @@
 
 //            Debug.Log($"Response Code: {request.responseCode}");
 
-//            //Check if have errors;
+//            Check if have errors;
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
@@ -326,7 +326,7 @@
 //                Debug.LogError($"Error: {request.error}");
 //            }
 
-//            //request
+//            request
 //            Dictionary<string, object> championData = JsonConvert.
 //                    DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
 
@@ -342,7 +342,7 @@
 
 
 
-//        //throw new NotImplementedException();
+//        throw new NotImplementedException();
 //        yield return null;
 //    }
 
@@ -350,7 +350,7 @@
 //    IEnumerator PatchPlayerData(Character characterProfileData)
 //    {
 
-//        //Dictionary to contain the parameters to create a player;
+//        Dictionary to contain the parameters to create a player;
 //        string objID = characterProfileData.objectId;
 //        CharacterStats characterUploadData = characterProfileData.GetCharacterStats();
 
@@ -363,10 +363,10 @@
 //        charaterData.Add("dex", characterUploadData.GetDEX());
 
 
-//        //Turns dictionary into a JSON String
+//        Turns dictionary into a JSON String
 //        string requestString = JsonConvert.SerializeObject(charaterData);
 
-//        //Convert the string into bytes
+//        Convert the string into bytes
 //        byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
 
@@ -382,7 +382,7 @@
 
 //            Debug.Log($"Response Code: {request.responseCode}");
 
-//            //Check if have errors;
+//            Check if have errors;
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
@@ -395,7 +395,7 @@
 
 
 //        }
-//        //throw new NotImplementedException();
+//        throw new NotImplementedException();
 //        yield return null;
 //    }
 
@@ -408,10 +408,10 @@
 //        charaterData.Add("objectId", objID);
 
 
-//        //Turns dictionary into a JSON String
+//        Turns dictionary into a JSON String
 //        string requestString = JsonConvert.SerializeObject(charaterData);
 
-//        //Convert the string into bytes
+//        Convert the string into bytes
 //        byte[] requestData = Encoding.UTF8.GetBytes(requestString);
 
 
@@ -427,7 +427,7 @@
 
 //            Debug.Log($"Response Code: {request.responseCode}");
 
-//            //Check if have errors;
+//            Check if have errors;
 //            if (string.IsNullOrEmpty(request.error))
 //            {
 //                Debug.Log($"Message: {request.downloadHandler.text}");
@@ -441,7 +441,7 @@
 
 //        }
 
-//        //throw new NotImplementedException();
+//        throw new NotImplementedException();
 //        yield return null;
 //    }
 //}
