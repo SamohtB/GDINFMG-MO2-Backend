@@ -36,7 +36,7 @@ public class WebAPI : MonoBehaviour
     {
         get
         {
-            return "localhost:3000";
+            return "https://gdinfmg-pokemon-db.onrender.com";
         }
     }
 
@@ -54,7 +54,10 @@ public class WebAPI : MonoBehaviour
     }
 
 
-    IEnumerator GetAllPokemon()
+    
+
+    //Pre-Loading
+    public IEnumerator GetAllPokemon()
     {
 
         Dictionary<string, object> charaterData = new Dictionary<string, object>();
@@ -82,10 +85,12 @@ public class WebAPI : MonoBehaviour
                 {
                     foreach (Pokemon pokemon in pokemonList)
                     {
-                        Debug.Log("Pokemon ID: " + pokemon.pokemonid);
-                        Debug.Log("Pokemon Name: " + pokemon.name);
+                        //Debug.Log("Pokemon ID: " + pokemon.pokemonid);
+                        //Debug.Log("Pokemon Name: " + pokemon.name);
+                        PokemonImageManager.Instance.RegisterDictionary(pokemon.pokemonid, pokemon.name);
                     }
                 }
+
 
             }
 
@@ -94,6 +99,8 @@ public class WebAPI : MonoBehaviour
             {
 
             }
+
+            MainUIBehaviour.instance.SpawnDefaultPokemon();
         }
     }
             // Start is called before the first frame update

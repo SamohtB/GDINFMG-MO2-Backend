@@ -10,16 +10,17 @@ public class PokemonImageManager : MonoBehaviour
     public static PokemonImageManager Instance;
 
     [SerializeField] private List<Sprite> data;
+    [SerializeField] private Dictionary<int, string> pokemonDictionary;
+    [SerializeField] private Dictionary<string, int> pokemonNumber;
 
-    
     //DictionaryData
     private Dictionary<string, Sprite> spriteDictionary;
-
+    private List<string> internalDataName;
+    private List<int> allID;
 
     private void Awake()
     {
-        CreateSingleton();
-        
+        CreateSingleton();   
     }
 
     void CreateSingleton()
@@ -36,8 +37,14 @@ public class PokemonImageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"SpriteName:{data[0].name } ");
+       
         spriteDictionary = new Dictionary<string, Sprite>();
+        pokemonDictionary = new Dictionary<int, string>();
+        pokemonNumber = new Dictionary<string, int>();
+
+        allID = new List<int>();
+        internalDataName = new List<string>();
+
         RegisterAllSprite();
     }
 
@@ -49,11 +56,26 @@ public class PokemonImageManager : MonoBehaviour
         else
         {
             spriteDictionary.Add(keyName, refImage);
+            internalDataName.Add(keyName);
             //Debug.Log("Success");
         }
     }
 
-    private void RegisterAllSprite()
+    public void RegisterDictionary(int pokemonId, string value)
+    {
+        if(pokemonId != 0 && CheckExistingData(value))
+        {
+            Debug.Log($"Id value: {pokemonId}");
+            pokemonDictionary.Add(pokemonId, value);
+            pokemonNumber.Add(value, pokemonId);
+
+            allID.Add(pokemonId);
+        }
+       
+
+    }
+
+    public void RegisterAllSprite()
     {
         foreach(Sprite pokemonSprite in data)
         {
@@ -72,7 +94,64 @@ public class PokemonImageManager : MonoBehaviour
         }
 
         return copySprite;
-            
-
      }
+
+    public Sprite RetrieveSprite(int pokemonId)
+    {
+        Sprite copySprite = spriteDictionary[pokemonDictionary[pokemonId]];
+
+        if (copySprite == null)
+        {
+            Debug.LogError($"Cannot Find Matching Image: {pokemonDictionary[pokemonId]}");
+            return null;
+        }
+
+        return copySprite;
+    }
+
+    public string RetrievePokemonName(int pokemonId)
+    {
+        if(pokemonDictionary[pokemonId] == null)
+        {
+            Debug.LogError($"No Name Found: {pokemonId}");
+            return null;
+        }
+
+        return pokemonDictionary[pokemonId];
+    }
+
+    public int RetrievePokemonId(string pokemonName)
+    {
+        if (pokemonNumber[pokemonName] == null)
+        {
+            Debug.LogError($"No Number Found: {pokemonName}");
+            return 0;
+        }
+
+        return pokemonNumber[pokemonName];
+    }
+
+
+    //All Data Request
+    public Dictionary<int, string> RetrieveAllData()
+    {
+        return pokemonDictionary;
+    }
+
+    public List<int> RetrieveAllId()
+    {
+        return allID;
+    }
+    
+    //Double Checking
+    private bool CheckExistingData(string pokemonName)
+    {
+        if (internalDataName.Contains(pokemonName)){
+            return true;
+        }
+
+        Debug.Log($"Pokemon that were not found: {pokemonName}");
+        return false;
+    }
+    
 }

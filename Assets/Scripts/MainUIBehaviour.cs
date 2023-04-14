@@ -146,7 +146,6 @@ public class MainUIBehaviour : MonoBehaviour
         DisableAllTab();
         activeTab.SetActive(true);
 
-
     }
 
 
@@ -182,6 +181,18 @@ public class MainUIBehaviour : MonoBehaviour
         if (popUpTab.activeInHierarchy)
             popUpTab.SetActive(false);
     }
+
+    //Defaul Spawning
+    public void SpawnDefaultPokemon()
+    {
+
+        if (pokemonOverviewTab.GetComponent<PokemonData>() == null)
+            Debug.LogError("no pokemon data component found");
+
+        else
+            pokemonOverviewTab.GetComponent<PokemonData>().SpawnDefault();
+    }
+
     
 
 }

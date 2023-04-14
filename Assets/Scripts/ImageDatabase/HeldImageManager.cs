@@ -32,7 +32,7 @@ public class HeldImageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log($"SpriteName:{heldImageData[0].name } ");
+        //Debug.Log($"SpriteName:{heldImageData[0].name } ");
         spriteDictionary = new Dictionary<string, Sprite>();
         RegisterAllSprite();
     }

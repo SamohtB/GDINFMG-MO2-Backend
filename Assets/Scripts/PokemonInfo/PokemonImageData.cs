@@ -16,7 +16,7 @@ public class PokemonImageData : MonoBehaviour
 
         else
         {
-            this.gameObject.GetComponent<Image>().sprite = BattleImageManager.Instance.RetrieveSprite(name);
+            this.gameObject.GetComponent<Image>().sprite = PokemonImageManager.Instance.RetrieveSprite(name);
         }
 
     }

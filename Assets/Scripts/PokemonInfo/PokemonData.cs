@@ -41,6 +41,13 @@ public class PokemonData : MonoBehaviour
     public void SpawnDefault()
     {
         //Todo: Unity Web Request handling for default image
+        Dictionary<int, string> allPokemon = PokemonImageManager.Instance.RetrieveAllData();
+        List<int> allPokemonId = PokemonImageManager.Instance.RetrieveAllId();
+        foreach(int pokemonID in allPokemonId)
+        {
+            SpawnParameters( PokemonImageManager.Instance.RetrievePokemonName(pokemonID));
+        }
+
     }
 
     private void SpawnParameters(string pokemonName)
