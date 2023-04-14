@@ -6,7 +6,7 @@ using TMPro;
 
 public class MainUIBehaviour : MonoBehaviour
 {
-    MainUIBehaviour instance;
+    public static MainUIBehaviour instance;
 
 
     [Header("Tab Section")]
@@ -127,6 +127,43 @@ public class MainUIBehaviour : MonoBehaviour
         activeTab.SetActive(true);
     }
 
+    //=============================== Detail Section ========================///
+    //Pokemon Section
+
+    public void OnSwitchPokemonDetail()
+    {
+        activeTab = pokemonDetailsTab;
+        DisableAllTab();
+        activeTab.SetActive(true);
+    }
+
+
+    //Held Item Section
+    public void OnSwitchHeldItemDetail()
+    {
+        activeTab = heldItemsDetailedTab;
+        DisableAllTab();
+        activeTab.SetActive(true);
+    }
+
+    public void OnSwitchBattleItemDetail()
+    {
+        activeTab = battleItemsDetailedTab;
+        DisableAllTab();
+        activeTab.SetActive(true);
+    }
+
+
+
+
+
+
+    //Special Switching
+    public void SwitchSection (GameObject fromTab, GameObject toTab) 
+    {
+        fromTab.SetActive(false);
+        toTab.SetActive(true);
+    }
     
 
 }

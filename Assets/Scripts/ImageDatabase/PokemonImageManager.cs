@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class PokemonImageManager : MonoBehaviour
 {
-    PokemonImageManager Instance;
+    public static PokemonImageManager Instance;
 
     [SerializeField] private List<Sprite> data;
 
-
+    
     //DictionaryData
     private Dictionary<string, Sprite> spriteDictionary;
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BattleImageManager : MonoBehaviour
 {
-    BattleImageManager Instance;
+    public static BattleImageManager Instance;
 
     [SerializeField] private List<Sprite> battleImageData;
 

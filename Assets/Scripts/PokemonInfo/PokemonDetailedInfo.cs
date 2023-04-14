@@ -46,6 +46,7 @@ public class PokemonDetailedInfo : MonoBehaviour
         else
         {
             //Call Singleton Function that will insert the image
+                //PokemonImageManager.Instance.RetrieveSprite("");
 
             //Do Function that will parse everything = Need The Dictionary method
             headerNameExtension.text = "> ";

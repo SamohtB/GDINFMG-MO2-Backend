@@ -14,8 +14,14 @@ public class PokemonImageData : MonoBehaviour
 
 
     //For Event Trigger Point Click
-    public void OnClick()
+    public void OnClickPokemonDetail()
     {
-        //Do SomeSinglePattern that reference the pokemon name
+        //Call Some WebAPI Request
+         //Argument (name)
+
+        MainUIBehaviour.instance.OnSwitchPokemonDetail();
+        
     }
+
+    
 }

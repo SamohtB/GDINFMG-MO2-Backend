@@ -14,8 +14,11 @@ public class HeldItemImageData : MonoBehaviour
 
 
     //For Event Trigger Point Click
-    public void OnClick()
+    public void OnClickHeldDetail()
     {
+        //Do WebRequest which is IEnumerator
+
         //Do SomeSinglePattern that reference the pokemon name
+        MainUIBehaviour.instance.OnSwitchHeldItemDetail();
     }
 }

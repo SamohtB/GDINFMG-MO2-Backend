@@ -14,8 +14,12 @@ public class BattleItemImageData : MonoBehaviour
 
 
     //For Event Trigger Point Click
-    public void OnClick()
+    public void OnClickBattleDetail()
     {
+
+        //Do Web Request
+
         //Do SomeSinglePattern that reference the pokemon name
+        MainUIBehaviour.instance.OnSwitchBattleItemDetail();
     }
 }

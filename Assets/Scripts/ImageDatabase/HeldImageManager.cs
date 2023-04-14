@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeldImageManager : MonoBehaviour
 {
-    HeldImageManager Instance;
+   public static HeldImageManager Instance;
 
     [SerializeField] private List<Sprite> heldImageData;
 

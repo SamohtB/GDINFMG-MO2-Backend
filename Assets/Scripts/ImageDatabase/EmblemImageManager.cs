@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EmblemImageManager : MonoBehaviour
 {
-    EmblemImageManager Instance;
+    public static EmblemImageManager Instance;
 
     [SerializeField] private List<Sprite> emblemData;
 
