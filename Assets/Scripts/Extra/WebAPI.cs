@@ -5,6 +5,31 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Text;
 
+public class All_Pokemon_Query
+{
+    public List<List<Pokemon>> All_Pokemon;
+    public List<List<ColumnDefinition>> All_ColumnDefinitions;
+}
+
+public class Pokemon
+{
+    public int pokemonid;
+    public string name;
+    public SpriteData sprite;
+}
+
+public class SpriteData
+{
+    public string type;
+    public byte[] data;
+}
+
+public class ColumnDefinition
+{
+    public string name;
+    public string type;
+}
+
 public class WebAPI : MonoBehaviour
 {
     public string BaseURL
@@ -50,13 +75,16 @@ public class WebAPI : MonoBehaviour
                 Debug.Log($"Message: {request.downloadHandler.text}");
 
 
-               List<object> pokemonList = JsonConvert.
-                   DeserializeObject<List<object>>(request.downloadHandler.text);
-                int i = 0;
-                foreach (object pokemon in pokemonList)
+               All_Pokemon_Query Query_List = JsonConvert.
+                   DeserializeObject<All_Pokemon_Query>(request.downloadHandler.text);
+
+                foreach (List<Pokemon> pokemonList in Query_List.All_Pokemon)
                 {
-                    Debug.Log($"Pokemon name: {pokemon.ToString()}");
-                    
+                    foreach (Pokemon pokemon in pokemonList)
+                    {
+                        Debug.Log("Pokemon ID: " + pokemon.pokemonid);
+                        Debug.Log("Pokemon Name: " + pokemon.name);
+                    }
                 }
 
             }
