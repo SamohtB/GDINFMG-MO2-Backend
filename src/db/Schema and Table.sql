@@ -108,12 +108,13 @@ CREATE TABLE IF NOT EXISTS EmblemSlot
 	loadoutid INT NOT NULL,
     emblemid INT NOT NULL,
     CONSTRAINT `slot_pk_owner&emblem` PRIMARY KEY (loadoutid, emblemid),
-    CONSTRAINT `slot_fk_owner` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid),
-    CONSTRAINT `slot_fk_emblem` FOREIGN KEY (emblemid) REFERENCES BoostEmblem(emblemid)
+    CONSTRAINT `slot_fk_owner` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid) ON DELETE CASCADE,
+    CONSTRAINT `slot_fk_emblem` FOREIGN KEY (emblemid) REFERENCES BoostEmblem(emblemid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS PokemonBuild
 (
+	buildid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	ownerid INT NOT NULL,
     name VARCHAR(30) NOT NULL,
     move1 VARCHAR(40) NOT NULL,
@@ -122,7 +123,7 @@ CREATE TABLE IF NOT EXISTS PokemonBuild
     helditemid2 INT,
     helditemid3 INT,
     battleitemid INT NOT NULL DEFAULT(0),
-    loadout INT,
+    loadoutid INT,
     CONSTRAINT `build_pk_owner&name` PRIMARY KEY (ownerid, name),
     CONSTRAINT `build_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon(pokemonid),
     CONSTRAINT `build_fk_move1` FOREIGN KEY (ownerid, move1) REFERENCES Skill(ownerid, name),
@@ -131,7 +132,7 @@ CREATE TABLE IF NOT EXISTS PokemonBuild
     CONSTRAINT `build_fk_held2` FOREIGN KEY (helditemid2) REFERENCES HeldItem(heldid),
     CONSTRAINT `build_fk_held3` FOREIGN KEY (helditemid3) REFERENCES HeldItem(heldid),
     CONSTRAINT `build_fk_battle`FOREIGN KEY (battleitemid) REFERENCES BattleItem(battleid),
-    CONSTRAINT `build_fk_loadout` FOREIGN KEY (loadout) REFERENCES EmblemLoadout(loadoutid)
+    CONSTRAINT `build_fk_loadout` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid)
 );
 
 

@@ -9,10 +9,11 @@ const pool = mysql.createPool({
 });
 
 //Route 1 - All Pokemon
-function GetAllPokemon(callback) 
+function GetAllPokemon() 
 {
     const stmt = `SELECT pokemonid, sprite, name FROM Pokemon`;
-    pool.query(stmt, callback);
+    console.log("sent query: " + stmt);
+    return pool.query(stmt);
 }
 
 //Route 2 - Filtered Pokemon
@@ -53,6 +54,8 @@ function GetFilteredPokemon(values)
                         P1.pokemonid IN (SELECT P3.pokemonid FROM pokemon P3 ${stylestmt}) AND
                         P1.pokemonid IN (SELECT P4.pokemonid FROM pokemon P4 ${rolestmt}) AND
                         P1.pokemonid IN (SELECT P5.pokemonid FROM pokemon P5 ${complexstmt})`;
+
+    console.log("sent query: " + basestmt);
     return pool.query(basestmt, filterParams);
 }
 
@@ -94,6 +97,7 @@ function GetFilteredPokemonCount(values)
                         P1.pokemonid IN (SELECT P3.pokemonid FROM pokemon P3 ${stylestmt}) AND
                         P1.pokemonid IN (SELECT P4.pokemonid FROM pokemon P4 ${rolestmt}) AND
                         P1.pokemonid IN (SELECT P5.pokemonid FROM pokemon P5 ${complexstmt})`;
+    console.log("sent query: " + basestmt);
     return pool.query(basestmt, filterParams);
 }
 
@@ -101,66 +105,208 @@ function GetFilteredPokemonCount(values)
 function GetPokemon(values)
 {
     const stmt = `SELECT * FROM Pokemon WHERE pokemonid = ?`;
+    console.log("sent query: " + stmt);
     return pool.query(stmt, values);
 }
+
 //Route 3
 function GetSkills(values)
 {
     const stmt = `SELECT * FROM Skill WHERE ownerid = ?`;
+    console.log("sent query: " + stmt);
     return pool.query(stmt, values);
 }
+
 //Route 3
 function GetStats(values)
 {
     const stmt = `SELECT * FROM Stats WHERE ownerid = ?`;
+    console.log("sent query: " + stmt);
     return pool.query(stmt, values);
 }
 
-function GetAllBattleItems(callback)
+//Route 4
+function GetAllBattleItems()
 {
     //Add sprite later
-    const stmt = `SELECT battleid, name FROM BattleItem`;
-    pool.query(stmt, callback);
+    const stmt = `SELECT battleid, sprite, name FROM BattleItem`;
+    console.log("sent query: " + stmt);
+    return pool.query(stmt);
 }
 
-function GetBattleItem(id, callback)
+//Route 4
+function GetAllHeldItems()
+{
+    //Add sprite later
+    const stmt = `SELECT heldid, sprite, name FROM HeldItem`;
+    console.log("sent query: " + stmt);
+    return pool.query(stmt);
+}
+
+//Route 5
+function GetBattleItem(values)
 {
     const stmt = `SELECT * FROM BattleItem WHERE battleid = ?`;
-    pool.query(stmt, id, callback);
+    return pool.query(stmt, values);
 }
 
-function GetAllHeldItems(callback)
-{
-    //Add sprite later
-    const stmt = `SELECT heldid, name FROM HeldItem`;
-    pool.query(stmt, callback);
-}
-
-function GetHeldItem(values, callback)
+//Route 6
+function GetHeldItem(values)
 {
     const stmt = `SELECT * FROM HeldItem WHERE heldid = ?`;
-    pool.query(stmt, values, callback);
+    return pool.query(stmt, values);
 }
 
-function GetBuilds(values, callback)
+//Route 7
+function GetAllBoostEmblems()
+{
+    const stmt = `SELECT emblemid, sprite, name FROM BoostEmblem`;
+    return pool.query(stmt);
+}
+
+function GetBoostEmblem(values)
+{
+    const stmt = `SELECT * FROM BoostEmblem WHERE name = ?`;
+    return pool.query(stmt, values);
+}
+
+//Route 8
+function GetFilteredBoostEmblems(values)
+{
+    filterParams = [];
+
+    let colorstmt = '';
+    if(values[0] != 'NULL')
+    {
+        colorstmt = `WHERE E2.color1 = ? OR E2.Color2 = ?`;
+        filterParams.push(values[0]);
+        filterParams.push(values[0]);
+    }
+
+    let attribstmt = '';
+    if(values[1] != 'NULL')
+    {
+        attribstmt = `WHERE E3.Attrib1Type = ? OR E3.Attrib2Type = ?`;
+        filterParams.push(values[1]);
+        filterParams.push(values[1]);
+    }
+
+    const basestmt = `SELECT E1.emblemid, E1.sprite, E1.name FROM BoostEmblem E1 WHERE 
+                        E1.emblemid IN (SELECT E2.emblemid FROM BoostEmblem E2 ${colorstmt}) AND
+                        E1.emblemid IN (SELECT E3.emblemid FROM BoostEmblem E3 ${attribstmt})`;
+    console.log("sent query: " + basestmt);
+    return pool.query(basestmt, filterParams);
+}
+
+//Route 8
+function GetFilteredBoostEmblemsCount(values)
+{
+    filterParams = [];
+
+    let colorstmt = '';
+    if(values[0] != 'NULL')
+    {
+        colorstmt = `WHERE E2.color1 = ? OR E2.Color2 = ?`;
+        filterParams.push(values[0]);
+        filterParams.push(values[0]);
+    }
+
+    let attribstmt = '';
+    if(values[1] != 'NULL')
+    {
+        attribstmt = `WHERE E3.Attrib1Type = ? OR E3.Attrib2Type = ?`;
+        filterParams.push(values[1]);
+        filterParams.push(values[1]);
+    }
+
+    const basestmt = `SELECT COUNT (E1.emblemid) FROM BoostEmblem E1 WHERE 
+                        E1.emblemid IN (SELECT E2.emblemid FROM BoostEmblem E2 ${colorstmt}) AND
+                        E1.emblemid IN (SELECT E3.emblemid FROM BoostEmblem E3 ${attribstmt})`;
+    console.log("sent query: " + basestmt);
+    return pool.query(basestmt, filterParams);
+}
+
+//Route 9
+function GetAllEmblemLoadouts()
+{
+    const stmt = `SELECT * FROM EmblemLoadout L1 LEFT JOIN EmblemSlot S1 ON L1.loadoutid = S1.loadoutid`;
+    console.log("sent query: " + stmt);
+    return pool.query(stmt);
+}
+//Route 9
+function GetEmblemLoadout(values)
+{
+    const stmt = `SELECT * FROM EmblemLoadout L1 LEFT JOIN EmblemSlot S1 ON L1.loadoutid = S1.loadoutid WHERE loadoutid = ?`;
+    console.log("sent query: " + stmt);
+    return pool.query(stmt, values);
+}
+//Route 9
+function CreateEmblemLoadout(values)
+{
+    const stmt = `INSERT INTO EmblemLoadout(name) VALUES (?)`;
+    console.log("sent query: " + stmt);
+    return pool.query(stmt, values)
+    .then(result => { 
+        return result[0].insertId;
+    });
+}
+//Route 9
+function InsertIntoLoadout(loadoutId, emblemIds)
+{
+    const values = [
+        [loadoutId, emblemIds[0]],
+        [loadoutId, emblemIds[1]],
+        [loadoutId, emblemIds[2]],
+        [loadoutId, emblemIds[3]],
+        [loadoutId, emblemIds[4]],
+        [loadoutId, emblemIds[5]],
+        [loadoutId, emblemIds[6]],
+        [loadoutId, emblemIds[7]],
+        [loadoutId, emblemIds[8]],
+        [loadoutId, emblemIds[9]]
+    ];
+    const stmt = `INSERT INTO EmblemSlot(loadoutid, emblemid) VALUES ?`;
+    console.log(stmt);
+    return pool.query(stmt, [values]);
+}
+
+//Route 9
+function UpdateEmblemLoadout(values)
+{
+    if(values["name"])
+    {
+        let stmt = `UPDATE EmblemLoadout SET name = ? WHERE loadoutid = ?`;
+        console.log(stmt, values);
+        return pool.query(stmt, [values["name"], values ["loadoutid"]]);
+    }
+}
+
+//Route 9
+function DeleteEmblemLoadout(values)
+{
+    const stmt = `DELETE FROM EmblemLoadout WHERE loadoutid = ?`;
+    return pool.query(stmt, values);
+}
+
+function GetBuilds(values)
 {
     const stmt = `SELECT * FROM PokemonBuild WHERE ownerid = ?`;
-    pool.query(stmt, values, callback);
+    return pool.query(stmt, values, callback);
 }
 
-function CreateBuild(values, callback)
+function CreateBuild(values)
 {
-    const stmt = `INSERT INTO PokemonBuild(ownerid, name, move1, move2, helditemid1, helditemid2, helditemid3, battleitemid) VALUES ROW (?, ?, ?, ?, ?, ?, ?, ?)`;
-    pool.query(stmt, values, callback);
+    const stmt = `INSERT INTO PokemonBuild(ownerid, name, move1, move2, helditemid1, helditemid2, helditemid3, battleitemid, loadoutid) VALUES ROW (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    return pool.query(stmt, values);
 }
 
-function DeleteBuild(values, callback)
+function DeleteBuild(values)
 {
     const stmt = `DELETE FROM PokemonBuild WHERE buildid = ?`;
-    pool.query(stmt, values, callback);
+    return pool.query(stmt, values);
 }
 
-function UpdateBuild(values, callback)
+function UpdateBuild(values)
 {
     let stmt = `UPDATE PokemonBuild SET`;
     updated = [];
@@ -174,7 +320,7 @@ function UpdateBuild(values, callback)
     }
 
     stmt += " " + updated.join(", ") + " WHERE buildid = ?";
-    pool.query(stmt, values["buildid"], callback);
+    return pool.query(stmt, values["buildid"]);
 }
 
 module.exports = 
@@ -183,17 +329,33 @@ module.exports =
     AllPokemon: GetAllPokemon,
     //Route 2
     FilteredPokemon: GetFilteredPokemon,
-    FilteredCount:  GetFilteredPokemonCount,
+    FilteredCountPokemon:  GetFilteredPokemonCount,
     //Route 3
     OnePokemon_Pokemon: GetPokemon,
     OnePokemon_Stats: GetStats,
     OnePokemon_Skills: GetSkills,
     //Route 4
     AllBattle: GetAllBattleItems,
-    OneBattle: GetBattleItem,
     AllHeld: GetAllHeldItems,
+    //Route 5
+    OneBattle: GetBattleItem,
+    //Route 6
     OneHeld: GetHeldItem,
-    Builds: GetBuilds,
+    //Route 7
+    AllEmblems: GetAllBoostEmblems,
+    OneEmblem: GetBoostEmblem,
+    //Route 8
+    FilteredEmblems: GetFilteredBoostEmblems,
+    FilteredCountEmblems: GetFilteredBoostEmblemsCount,
+    //Route 9
+    AllLoadout: GetAllEmblemLoadouts,
+    OneLoadout: GetEmblemLoadout,
+    CreateLoadout: CreateEmblemLoadout,
+    InsertEmblem: InsertIntoLoadout,
+    UpdateLoadout: UpdateEmblemLoadout,
+    DeleteLoadout: DeleteEmblemLoadout,
+    //Route 10
+    GetBuilds,
     CreateBuild,
     DeleteBuild,
     UpdateBuild
