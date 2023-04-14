@@ -7,12 +7,11 @@ CREATE TABLE IF NOT EXISTS Pokemon
 (
 	pokemonid INT NOT NULL UNIQUE AUTO_INCREMENT,
     name VARCHAR(12) NOT NULL UNIQUE,
-    sprite BLOB,
+    sprite BLOB NOT NULL,
     attacktype ENUM('PHYSICAL','SPECIAL') NOT NULL,
 	attackstyle ENUM('MELEE', 'RANGED') NOT NULL,
     role ENUM('Attacker', 'Defender', 'All-Rounder', 'Supporter', 'Speedster') NOT NULL,
     complexity ENUM('Novice', 'Intermediate', 'Expert') NOT NULL,
-    stats INT,
 	CONSTRAINT `pokemon_pk_name` PRIMARY KEY (pokemonid)
 );
 
@@ -28,7 +27,6 @@ CREATE TABLE IF NOT EXISTS Stats
     criticalrate FLOAT NOT NULL,
     cooldownredux FLOAT NOT NULL,
     lifesteal FLOAT NOT NULL,
-    attackspeed FLOAT,
     CONSTRAINT `stats_pk_owner&level` PRIMARY KEY (ownerid, level),
     CONSTRAINT `stats_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid)
 );
@@ -37,18 +35,17 @@ CREATE TABLE IF NOT EXISTS Skill
 (
 	ownerid INT NOT NULL,
     name VARCHAR(40) NOT NULL,
-    skilltype ENUM('Ranged', 'Melee', 'Area', 'Hindrance', 'Dash', 'Buff', 'Debuff', 'Recovery', 'SureHit'),
+    skilltype ENUM('Ranged', 'Melee', 'Area', 'Hindrance', 'Dash', 'Buff', 'Debuff', 'Recovery', 'Sure Hit'),
     skillclass ENUM('Basic', 'Passive', 'Move1', 'Move2', 'Unite') NOT NULL,
     levelrequirement INT NOT NULL,
     cooldown INT,
-    statuseffect ENUM('Slow', 'Stun', 'Burn', 'Sleep', 'Buff', 'Heal'),
     skilltext TEXT NOT NULL,
-    attacktype ENUM('PHYSICAL','SPECIAL'),
+    attacktype ENUM('Physical', 'Special'),
     attackmultiplier FLOAT,
 	basemultiplier INT,
     basedamage INT,
     CONSTRAINT `skill_pk_owner&name` PRIMARY KEY (ownerid, name),
-    CONSTRAINT `skill_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid)
+    CONSTRAINT `skill_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon (pokemonid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS HeldItem
@@ -56,13 +53,20 @@ CREATE TABLE IF NOT EXISTS HeldItem
 	heldid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	name VARCHAR(20) NOT NULL UNIQUE,
     sprite BLOB,
-    tierlevel ENUM('1', '10', '20', '30') NOT NULL,
-    tierattribtype ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    tierval FLOAT NOT NULL,
-    attribtype1 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    attribval1 FLOAT NOT NULL,
-    attribtype2 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR'),
-    attribval2 FLOAT,
+    tierattribtype ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration') NOT NULL,
+    tier1val FLOAT NOT NULL,
+    tier10val FLOAT NOT NULL,
+    tier20val FLOAT NOT NULL,
+    attrib1type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration') NOT NULL,
+    attrib1val FLOAT NOT NULL,
+    attrib2type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'Move Speed', 'Crit Rate', 'Cooldown Reduction', 'Lifesteal', 'DMG',
+    'Energy Rate', 'Exp/s', 'HP Lost', 'Max HP/s', 'HP/5s', 'Remaining HP', 'AS', 'Recovery Effects', 'Of ATK', 'Crit Damage',
+    'SpD Penetration'),
+    attrib2val FLOAT,
     description TEXT NOT NULL,
     CONSTRAINT `helditem_pk_id` PRIMARY KEY (heldid)
 );
@@ -82,13 +86,13 @@ CREATE TABLE IF NOT EXISTS BoostEmblem
 	emblemid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	name VARCHAR(12) NOT NULL,
     sprite BLOB, 
-    Color1 ENUM('Blue','Grey') NOT NULL,
-    Color2 ENUM('Blue', 'Grey'),
+    Color1 ENUM('Black', 'Blue', 'Brown', 'Gray', 'Green', 'Navy', 'Pink', 'Purple', 'Red', 'White', 'Yellow') NOT NULL,
+    Color2 ENUM('Black', 'Blue', 'Brown', 'Gray', 'Green', 'Navy', 'Pink', 'Purple', 'Red', 'White', 'Yellow'),
     emblemtier ENUM('Bronze', 'Silver', 'Gold') NOT NULL,
-    AttribType1 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR') NOT NULL,
-    AttribVal1 FLOAT NOT NULL,
-    AttribType2 ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'CritRate', 'CDR'),
-    AttribVal2 FLOAT,
+    Attrib1Type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'Crit Rate', 'CDR') NOT NULL,
+    Attrib1Val FLOAT NOT NULL,
+    Attrib2Type ENUM('HP', 'ATK', 'DEF', 'SpA',  'SpD', 'MS',  'Crit Rate', 'CDR'),
+    Attrib2Val FLOAT,
     CONSTRAINT `boostemblem_pk_id` PRIMARY KEY (emblemid)
 );
 
@@ -104,12 +108,13 @@ CREATE TABLE IF NOT EXISTS EmblemSlot
 	loadoutid INT NOT NULL,
     emblemid INT NOT NULL,
     CONSTRAINT `slot_pk_owner&emblem` PRIMARY KEY (loadoutid, emblemid),
-    CONSTRAINT `slot_fk_owner` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid),
-    CONSTRAINT `slot_fk_emblem` FOREIGN KEY (emblemid) REFERENCES BoostEmblem(emblemid)
+    CONSTRAINT `slot_fk_owner` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid) ON DELETE CASCADE,
+    CONSTRAINT `slot_fk_emblem` FOREIGN KEY (emblemid) REFERENCES BoostEmblem(emblemid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS PokemonBuild
 (
+	buildid INT NOT NULL UNIQUE AUTO_INCREMENT,
 	ownerid INT NOT NULL,
     name VARCHAR(30) NOT NULL,
     move1 VARCHAR(40) NOT NULL,
@@ -118,7 +123,7 @@ CREATE TABLE IF NOT EXISTS PokemonBuild
     helditemid2 INT,
     helditemid3 INT,
     battleitemid INT NOT NULL DEFAULT(0),
-    loadout INT,
+    loadoutid INT,
     CONSTRAINT `build_pk_owner&name` PRIMARY KEY (ownerid, name),
     CONSTRAINT `build_fk_owner` FOREIGN KEY (ownerid) REFERENCES Pokemon(pokemonid),
     CONSTRAINT `build_fk_move1` FOREIGN KEY (ownerid, move1) REFERENCES Skill(ownerid, name),
@@ -127,7 +132,7 @@ CREATE TABLE IF NOT EXISTS PokemonBuild
     CONSTRAINT `build_fk_held2` FOREIGN KEY (helditemid2) REFERENCES HeldItem(heldid),
     CONSTRAINT `build_fk_held3` FOREIGN KEY (helditemid3) REFERENCES HeldItem(heldid),
     CONSTRAINT `build_fk_battle`FOREIGN KEY (battleitemid) REFERENCES BattleItem(battleid),
-    CONSTRAINT `build_fk_loadout` FOREIGN KEY (loadout) REFERENCES EmblemLoadout(loadoutid)
+    CONSTRAINT `build_fk_loadout` FOREIGN KEY (loadoutid) REFERENCES EmblemLoadout(loadoutid)
 );
 
 

@@ -19,9 +19,9 @@ shell.on('message', function(message){
   pool.connect(function(err) {  
 
     if (err) throw err;   
-    sql = "INSERT INTO Pokemon(name, attacktype, attackstyle, role, complexity) VALUES ROW(?)";
+    sql = "INSERT INTO Pokemon(name, sprite, attacktype, attackstyle, role, complexity) VALUES ROW(?)";
     message = JSON.parse(message);
-    values = [message["name"], message["attack_type"], message["attack_style"], message["role"], message["complexity"]];
+    values = [message["name"], message["sprite"], message["attack_type"], message["attack_style"], message["role"], message["complexity"]];
     pool.query(sql, [values], function (err, result) {
       if(err)
       {
