@@ -65,7 +65,7 @@ public class PokemonImageManager : MonoBehaviour
     {
         if(pokemonId != 0 && CheckExistingData(value))
         {
-            Debug.Log($"Id value: {pokemonId}");
+            //Debug.Log($"Id value: {pokemonId}");
             pokemonDictionary.Add(pokemonId, value);
             pokemonNumber.Add(value, pokemonId);
 
@@ -122,12 +122,14 @@ public class PokemonImageManager : MonoBehaviour
 
     public int RetrievePokemonId(string pokemonName)
     {
+        Debug.LogWarning(pokemonName);
+
         if (pokemonNumber[pokemonName] == null)
         {
             Debug.LogError($"No Number Found: {pokemonName}");
             return 0;
         }
-
+        Debug.LogWarning(pokemonNumber[pokemonName]);
         return pokemonNumber[pokemonName];
     }
 

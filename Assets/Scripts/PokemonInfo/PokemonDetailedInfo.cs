@@ -6,6 +6,9 @@ using TMPro;
 
 public class PokemonDetailedInfo : MonoBehaviour
 {
+
+    public static PokemonDetailedInfo instance;
+
     [Header("Pokkemon Descriptive Data")]
     [SerializeField] private TextMeshProUGUI headerNameExtension;
     [SerializeField] private Image PokemonImage;
@@ -31,6 +34,22 @@ public class PokemonDetailedInfo : MonoBehaviour
     [SerializeField] private GameObject data;
 
 
+    private void Awake()
+    {
+        CreateSingleton();
+    }
+
+    void CreateSingleton()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+
+        //DontDestroyOnLoad(gameObject);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,23 +57,25 @@ public class PokemonDetailedInfo : MonoBehaviour
     }
 
 
-    public void AlterDescriptiveData(Dictionary<string, object> PokemonData)
+    public void AlterDescriptiveData(List<PokemonFull> pokemonData)
     {
-        if (PokemonData == null)
+        if (pokemonData == null)
             Debug.LogError("Missing Overview Data");
 
         else
         {
+
             //Call Singleton Function that will insert the image
-                //PokemonImageManager.Instance.RetrieveSprite("");
+            PokemonImage.sprite = PokemonImageManager.Instance.RetrieveSprite(pokemonData[0].name);
+
 
             //Do Function that will parse everything = Need The Dictionary method
-            headerNameExtension.text = "> ";
-            pokemonNameTxt.text = "";
-            attackTypeTxt.text = "";
-            attackReachTxt.text = "";
-            pokemonRoleTxt.text = "";
-            complexityTxt.text = "";
+            headerNameExtension.text = $"> {  pokemonData[0].name}";
+            pokemonNameTxt.text = pokemonData[0].name;
+            attackTypeTxt.text = pokemonData[0].attacktype;
+            attackReachTxt.text = pokemonData[0].attackstyle;
+            pokemonRoleTxt.text = pokemonData[0].role;
+            complexityTxt.text = pokemonData[0].complexity;
         }
     }
 

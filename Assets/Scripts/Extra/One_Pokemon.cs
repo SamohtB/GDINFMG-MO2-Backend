@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,60 +6,62 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System.Text;
 
+public class PokemonData_Full
+{
+    public List<PokemonFull> pokemon;
+    public List<List<Pokemon_Stats_Full>> stats;
+    public List<List<Pokemon_Skill_Full>> skills;
+}
+
+public class PokemonFull
+{
+    public int pokemonid;
+    public string name;
+    public SpriteData sprite;
+    public string attacktype;
+    public string attackstyle;
+    public string role;
+    public string complexity;
+}
+public class Pokemon_Stats_Full
+{
+    public int ownerid;
+    public int level;
+    public int HP;
+    public int ATK;
+    public int DEF;
+    public int SpA;
+    public int SpD;
+    public float criticalrate;
+    public float cooldownredux;
+    public float lifesteal;
+
+}
+public class Pokemon_Skill_Full
+{
+    public int ownerid;
+    public string name;
+    public string? skilltype;
+    public string? skillclass;
+    public int levelrequirement;
+    public int? cooldown;
+    public string skilltext;
+    public string? attacktype;
+    public float? attackmultiplier;
+    public int? basemultiplier;
+    public int? basedamage;
+}
 
 public class One_Pokemon : MonoBehaviour
 {
-    private class PokemonData
-    {
-        public List<Pokemon> pokemon;
-        public List<List<Pokemon_Stats>> stats;
-        public List<List<Pokemon_Skill>> skills;
-    }
-
-    private class Pokemon
-    {
-        public int pokemonid;
-        public string name;
-        public SpriteData sprite;
-        public string attacktype;
-        public string attackstyle;
-        public string role;
-        public string complexity;
-    }
-    private class Pokemon_Stats
-    {
-        public int ownerid;
-        public int level;
-        public int HP;
-        public int ATK;
-        public int DEF;
-        public int SpA;
-        public int SpD;
-        public float criticalrate;
-        public float cooldownredux;
-        public float lifesteal;
-
-    }
-    private class Pokemon_Skill
-    {
-        public int ownerid;
-        public string name;
-        public string? skilltype;
-        public string? skillclass;
-        public int levelrequirement;
-        public int? cooldown;
-        public string skilltext;
-        public string? attacktype;
-        public float? attackmultiplier;
-        public int? basemultiplier;
-        public int? basedamage;
-    }
+    
 
     public string BaseURL
     {
         get
         {
             return "https://gdinfmg-pokemon-db.onrender.com";
+            //return "localhost:3000";
         }
     }
 
@@ -76,12 +79,12 @@ public class One_Pokemon : MonoBehaviour
     }
     
     //Pre-Loading
-    public IEnumerator GetOnePokemon()
+    public IEnumerator GetOnePokemon(int val)
     {
-
+        Debug.Log("name: " + val.ToString());
         Dictionary<string, object> charaterData = new Dictionary<string, object>();
 
-        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/Pokemon/1", "GET"))
+        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/Pokemon/" + val.ToString(), "GET"))
         {
             //Debug.Log((BaseURL + $"/{level.ToString()}"));
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -97,29 +100,41 @@ public class One_Pokemon : MonoBehaviour
                 Debug.Log($"Message: {request.downloadHandler.text}");
 
 
-               PokemonData Query_List = JsonConvert.
-                   DeserializeObject<PokemonData>(request.downloadHandler.text);
+               PokemonData_Full Query_List = JsonConvert.
+                   DeserializeObject<PokemonData_Full>(request.downloadHandler.text);
 
-               foreach (Pokemon pokemon in Query_List.pokemon)
+               foreach (PokemonFull pokemon in Query_List.pokemon)
                {
                     Debug.Log(Query_List.pokemon[0].name);
                     Debug.Log(Query_List.stats[0][0].level);//has 1-15 levels
                     Debug.Log(Query_List.skills[0][0].name);//has upto hawmany skill they have
+
+                    //Specific Function Calls
+                    Debug.Log($"name: {Query_List.pokemon[0].name}");
+
+                    //PokemonDetailedInfo.instance.AlterDescriptiveData(Query_List.pokemon);
+
+
                }
             }
 
             //If No Data Found
             else
             {
-
+                Debug.LogWarning("Empty");
             }
 
+            Debug.LogWarning("done Processing");
+
         }
+
+        //throw new NotImplementedException();
+        yield return null;
     }
             // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetOnePokemon());
+        StartCoroutine(GetOnePokemon(12));
     }
 
     // Update is called once per frame

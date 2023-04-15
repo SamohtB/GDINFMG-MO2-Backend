@@ -54,7 +54,7 @@ public class BattleImageManager : MonoBehaviour
         foreach (Sprite pokemonSprite in battleImageData)
         {
             RegisterImage(pokemonSprite.name, pokemonSprite);
-            Debug.Log($"Pokemon Name Insert:{pokemonSprite.name}");
+            //Debug.Log($"Pokemon Name Insert:{pokemonSprite.name}");
         }
     }
 

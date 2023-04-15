@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,11 @@ using System.Text;
 
 public class All_Pokemon_Query
 {
-    public List<List<Pokemon>> All_Pokemon;
+    public List<List<PokemonShort>> All_Pokemon;
     public List<List<ColumnDefinition>> All_ColumnDefinitions;
 }
 
-public class Pokemon
+public class PokemonShort
 {
     public int pokemonid;
     public string name;
@@ -37,6 +38,7 @@ public class WebAPI : MonoBehaviour
         get
         {
             return "https://gdinfmg-pokemon-db.onrender.com";
+            //return "localhost:3000";
         }
     }
 
@@ -81,9 +83,9 @@ public class WebAPI : MonoBehaviour
                All_Pokemon_Query Query_List = JsonConvert.
                    DeserializeObject<All_Pokemon_Query>(request.downloadHandler.text);
 
-                foreach (List<Pokemon> pokemonList in Query_List.All_Pokemon)
+                foreach (List<PokemonShort> pokemonList in Query_List.All_Pokemon)
                 {
-                    foreach (Pokemon pokemon in pokemonList)
+                    foreach (PokemonShort pokemon in pokemonList)
                     {
                         //Debug.Log("Pokemon ID: " + pokemon.pokemonid);
                         //Debug.Log("Pokemon Name: " + pokemon.name);
@@ -102,6 +104,8 @@ public class WebAPI : MonoBehaviour
 
             MainUIBehaviour.instance.SpawnDefaultPokemon();
         }
+
+        yield return null;
     }
             // Start is called before the first frame update
     void Start()
