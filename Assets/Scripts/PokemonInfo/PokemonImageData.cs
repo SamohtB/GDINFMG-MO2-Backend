@@ -28,9 +28,9 @@ public class PokemonImageData : MonoBehaviour
         //Call Some WebAPI Request
         //Argument (name)
         int Id = PokemonImageManager.Instance.RetrievePokemonId(pokemonName);
-        StartCoroutine(One_Pokemon.Instance.GetOnePokemon(Id));
+        UniversalWebAPI.Instance.FindSpecificPokemon(Id);
 
-        MainUIBehaviour.instance.OnSwitchPokemonDetail();
+        MainUIBehaviour.Instance.OnSwitchPokemonDetail();
         
     }
 

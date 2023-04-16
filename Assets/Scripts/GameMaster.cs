@@ -75,46 +75,46 @@
 //        IsInCombat = false;
 //        if (isPlayerWinner)
 //        {
-//             If player wins
-//            lastLevelDefeated += 1;
-//             Handle result
+//            If player wins
+//           lastLevelDefeated += 1;
+//            Handle result
 
 //            if (player.GetCurHP() >= player.GetCharacterStats().GetHP() * 0.5)
 //            {
-//                 Overwhelming Victory
+//                Overwhelming Victory
 //                results.DisplayResult(CombatResult.VICTORY_OVERWHELM);
-//                 Adds two levels above the player's current level (after levelling up)
+//                Adds two levels above the player's current level (after levelling up)
 //                lastLevelDefeated = player.GetCharacterStats().level + 3;
 //            }
 //            else
 //            {
-//                 Regular Victory
+//                Regular Victory
 //                results.DisplayResult(CombatResult.VICTORY);
 //                hasEnemyLoaded = false;
 //                if (!player.IsAwardedExp(WINNER_XP))
 //                    ResetCombat();
 //            }
 
-//             Upload player data
+//            Upload player data
 //            if (player.objectId == "")
 //            {
-//                 TODO: send a POST request to send the player name and stats. Then assign returned objectID to this player's objectID property
+//            TODO: send a POST request to send the player name and stats.Then assign returned objectID to this player's objectID property
 //                StartCoroutine(UploadNewPlayerData(player));
 //            }
 //            else
 //            {
-//                 TODO: using the existing objectID, send a PATCH request to update the player stats.
+//            TODO: using the existing objectID, send a PATCH request to update the player stats.
 
-//                StartCoroutine(PatchPlayerData(player));
+//           StartCoroutine(PatchPlayerData(player));
 //            }
 //        }
 //        else
 //        {
-//             If player loses
+//            If player loses
 //            if (enemy.objectId != "")
 //            {
 //                string objId = enemy.objectId;
-//                 If the player lost to a champion from the leaderboard
+//                If the player lost to a champion from the leaderboard
 //                 TODO: send a POST request to increment the victory count of that champion
 
 //                My Task create a IEnumerator for victory
@@ -137,62 +137,64 @@
 //    }
 
 //    / <summary>
-//    / Coroutine that sends a GET request to get an enemy profile from the database, which matches the specified level. 
+//    / Coroutine that sends a GET request to get an enemy profile from the database, which matches the specified level.
 //    / Once data is retrieved, the stats are assigned to the enemy via `SetCharacterStats(CharacterStats)`, and combatBtn is set to be interactable.
 //    / If no matches are found, a basic Character is returned by the API instead, named "Unknown Champion". This Champion will not have an object ID as it does not exist in the database.
 //    / </summary>
-//    / <param name="level"></param>
-//    / <returns></returns>
+//    / <param name = "level" ></ param >
+//    / < returns ></ returns >
 //    IEnumerator GetEnemyStatsCoroutine(int level)
 //    {
-//         TODO: send a GET request to get an enemy profile from the database. Once data is retrieved
-//         Hint 1 : Use Dictionary<string, object> for different datatypes
-//         Hint 2 : For downloaded data, use Convert.ToString(x) / Convert.ToInt32(x) to convert from object to string / integer
+//    TODO: send a GET request to get an enemy profile from the database. Once data is retrieved
+//    Hint 1 : Use Dictionary<string, object> for different datatypes
 
-//        4
+//    Hint 2 : For downloaded data, use Convert.ToString(x) / Convert.ToInt32(x) to convert from object to string / integer
+
+
+//   4
 //        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/{level.ToString()}", "GET"))
-//        {
-//            Debug.Log((BaseURL + $"/{level.ToString()}"));
-//            request.downloadHandler = new DownloadHandlerBuffer();
-
-//            Debug.Log("Sending got request.....");
-//            yield return request.SendWebRequest();
-
-//            Debug.Log($"Get all players response code: {request.responseCode}");
-
-//            Check if have errors;
-//            if (string.IsNullOrEmpty(request.error))
 //            {
-//                Debug.Log($"Message: {request.downloadHandler.text}");
+//                Debug.Log((BaseURL + $"/{level.ToString()}"));
+//                request.downloadHandler = new DownloadHandlerBuffer();
+
+//                Debug.Log("Sending got request.....");
+//                yield return request.SendWebRequest();
+
+//                Debug.Log($"Get all players response code: {request.responseCode}");
+
+//                Check if have errors;
+//                if (string.IsNullOrEmpty(request.error))
+//                {
+//                    Debug.Log($"Message: {request.downloadHandler.text}");
 
 
-//                Dictionary<string, object> championData = JsonConvert.
-//                   DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
+//                    Dictionary<string, object> championData = JsonConvert.
+//                       DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
 
-//                string enemName = championData["name"].ToString();
+//                    string enemName = championData["name"].ToString();
 
-//                Debug.Log($"Message: Find Enemy{championData["level"].GetType()}");
+//                    Debug.Log($"Message: Find Enemy{championData["level"].GetType()}");
 
-//                int enemLevel = System.Convert.ToInt32(championData["level"]);
-//                int enemHp = System.Convert.ToInt32(championData["hp"]);
-//                int enemStr = System.Convert.ToInt32(championData["str"]);
-//                int enemDex = System.Convert.ToInt32(championData["dex"]);
+//                    int enemLevel = System.Convert.ToInt32(championData["level"]);
+//                    int enemHp = System.Convert.ToInt32(championData["hp"]);
+//                    int enemStr = System.Convert.ToInt32(championData["str"]);
+//                    int enemDex = System.Convert.ToInt32(championData["dex"]);
 
 
-//                CharacterStats enemyStats = new CharacterStats(enemName, enemLevel, enemHp, enemStr, enemDex);
-//                enemy.SetCharacterStats(enemyStats);
-//                enemy.objectId = championData["objectId"].ToString();
+//                    CharacterStats enemyStats = new CharacterStats(enemName, enemLevel, enemHp, enemStr, enemDex);
+//                    enemy.SetCharacterStats(enemyStats);
+//                    enemy.objectId = championData["objectId"].ToString();
 
-//            }
+//                }
 
-//            If No Data Found
+//                If No Data Found
 //            else
-//            {
+//                {
+
+//                }
+
 
 //            }
-
-
-//        }
 
 //        throw new NotImplementedException();
 
@@ -225,12 +227,14 @@
 
 //    IEnumerator VanquishEnemyCoroutine(string objectId)
 //    {
-//         TODO: send a DELETE request that would vanquish the current enemy with the given objectId. If the enemy does not have an object Id (i.e., unknown champion), do nothing.
-//         Hint: Use Dictionary<string, object> for different datatypes
+//    TODO: send a DELETE request that would vanquish the current enemy with the given objectId. If the enemy does not have an object Id(i.e., unknown champion), do nothing.
+//   Hint: Use Dictionary<string, object> for different datatypes
 
-//        5
 
-//        Dictionary<string, object> charaterData = new Dictionary<string, object>();
+//  5
+
+
+//  Dictionary<string, object> charaterData = new Dictionary<string, object>();
 
 //        charaterData.Add("objId", objectId);
 
@@ -271,7 +275,7 @@
 
 
 
-//         After everything has been processed successfully:
+//        After everything has been processed successfully:
 //        hasEnemyLoaded = false;
 //        if (!player.IsAwardedExp(WINNER_XP))
 //            ResetCombat();

@@ -33,12 +33,12 @@ public class ColumnDefinition
 
 public class WebAPI : MonoBehaviour
 {
-    public string BaseURL
+    private string BaseURL
     {
         get
         {
-            return "https://gdinfmg-pokemon-db.onrender.com";
-            //return "localhost:3000";
+            //return "https://gdinfmg-pokemon-db.onrender.com";
+            return "localhost:3000";
         }
     }
 
@@ -72,6 +72,8 @@ public class WebAPI : MonoBehaviour
             Debug.Log("Sending got request.....");
             yield return request.SendWebRequest();
 
+
+
             Debug.Log($"Get all players response code: {request.responseCode}");
 
             //Check if have errors;
@@ -102,7 +104,7 @@ public class WebAPI : MonoBehaviour
 
             }
 
-            MainUIBehaviour.instance.SpawnDefaultPokemon();
+            MainUIBehaviour.Instance.SpawnDefaultPokemon();
         }
 
         yield return null;

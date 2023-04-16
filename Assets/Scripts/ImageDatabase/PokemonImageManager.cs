@@ -122,14 +122,14 @@ public class PokemonImageManager : MonoBehaviour
 
     public int RetrievePokemonId(string pokemonName)
     {
-        Debug.LogWarning(pokemonName);
+        //Debug.LogWarning(pokemonName);
 
         if (pokemonNumber[pokemonName] == null)
         {
             Debug.LogError($"No Number Found: {pokemonName}");
             return 0;
         }
-        Debug.LogWarning(pokemonNumber[pokemonName]);
+        //Debug.LogWarning(pokemonNumber[pokemonName]);
         return pokemonNumber[pokemonName];
     }
 

@@ -27,11 +27,14 @@ public class PokemonDetailedInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI critRateStatsTxt;
     [SerializeField] private TextMeshProUGUI cooldownReduxStatsTxt;
     [SerializeField] private TextMeshProUGUI lifeStealStatsTxt;
-    [SerializeField] private TextMeshProUGUI atkSpeedStatsTxt;
     [SerializeField] private Slider levelSliderData;
-
+    [SerializeField] private TextMeshProUGUI levelTxt;
     [Header("Skill Data Reference")]
     [SerializeField] private GameObject data;
+
+
+    private List<Pokemon_Stats_Full> levelList;
+    private int level = 1;
 
 
     private void Awake()
@@ -53,7 +56,7 @@ public class PokemonDetailedInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelList = new List<Pokemon_Stats_Full>();
     }
 
 
@@ -64,6 +67,8 @@ public class PokemonDetailedInfo : MonoBehaviour
 
         else
         {
+
+            //Debug.LogWarning("start altering");
 
             //Call Singleton Function that will insert the image
             PokemonImage.sprite = PokemonImageManager.Instance.RetrieveSprite(pokemonData[0].name);
@@ -80,26 +85,34 @@ public class PokemonDetailedInfo : MonoBehaviour
     }
 
 
-    public void AlterStatsData (Dictionary<string, object> PokemonStatsData)
+    public void AlterStatsData (Pokemon_Stats_Full PokemonStatsData)
     {
         if (PokemonStatsData == null)
             Debug.LogError("Missing Overview Data");
 
         else
         {
-            //Call Singleton Function that will insert the image
-
             //Do Function that will parse everything
-            healthStatsTxt.text = "";
-            attackStatsTxt.text = "";
-            defenseStatsTxt.text = "";
-            spAtkStatsTxt.text = "";
-            spDefStatsTxt.text = "";
-            critRateStatsTxt.text = "";
-            cooldownReduxStatsTxt.text = "";
-            lifeStealStatsTxt.text = "";
-            atkSpeedStatsTxt.text = "";
+            healthStatsTxt.text = PokemonStatsData.HP.ToString();
+            attackStatsTxt.text = PokemonStatsData.ATK.ToString();
+            defenseStatsTxt.text = PokemonStatsData.DEF.ToString();
+            spAtkStatsTxt.text = PokemonStatsData.SpA.ToString();
+            spDefStatsTxt.text = PokemonStatsData.SpD.ToString();
+            critRateStatsTxt.text = PokemonStatsData.criticalrate.ToString();
+            cooldownReduxStatsTxt.text = PokemonStatsData.cooldownredux.ToString();
+            lifeStealStatsTxt.text = PokemonStatsData.lifesteal.ToString();
         }
+    }
+
+    public void RegisterLevel(List<Pokemon_Stats_Full> levelData)
+    {
+        this.levelList = levelData;
+        //Set the slider value into first level;
+        AlterStatsData(levelData[0]);
+        levelSliderData.value = 0;
+        level = 1;
+
+
     }
 
     public void AlterSkillData()
@@ -109,8 +122,28 @@ public class PokemonDetailedInfo : MonoBehaviour
 
 
 
-    public void OnLevelSliderChange(float level)
+    public void OnLevelSliderChange()
     {
         //Some Single Pattern that alter Data
+
+        
+        int levelIndex = DetermineIndex(levelSliderData.value, 15); //default max level
+
+        if (level != levelIndex + 1 && levelList != null) 
+        {
+            AlterStatsData(levelList[levelIndex]);
+            levelTxt.text = "Level " + (levelIndex + 1).ToString();
+            level = levelIndex + 1;
+        }
+      
+        
+    }
+
+    public int DetermineIndex(float range, int n)
+    {
+        float partitionSize = 1f / n;
+        int index = (int)Mathf.Floor(range / partitionSize);
+
+        return index;
     }
 }

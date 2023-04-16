@@ -54,42 +54,43 @@ public class Pokemon_Skill_Full
 
 public class One_Pokemon : MonoBehaviour
 {
-    
+    [SerializeField] private PokemonDetailedInfo details;
 
     public string BaseURL
     {
         get
         {
-            return "https://gdinfmg-pokemon-db.onrender.com";
-            //return "localhost:3000";
+            //return "https://gdinfmg-pokemon-db.onrender.com";
+            return "localhost:3000";
         }
     }
 
-    public static One_Pokemon Instance
-    {
-        get; private set;
-    }
+    //public static One_Pokemon Instance
+    //{
+    //    get; private set;
+    //}
 
-    private void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(this);
-    }
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //        Instance = this;
+    //    else
+    //        Destroy(this);
+    //}
     
     //Pre-Loading
     public IEnumerator GetOnePokemon(int val)
     {
-        Debug.Log("name: " + val.ToString());
-        Dictionary<string, object> charaterData = new Dictionary<string, object>();
+       // Debug.Log("name: " + val.ToString());
+        //Dictionary<string, object> charaterData = new Dictionary<string, object>();
 
-        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/Pokemon/" + val.ToString(), "GET"))
+        using (UnityWebRequest request = new UnityWebRequest(BaseURL + $"/Pokemon/{val}" , "GET"))
         {
             //Debug.Log((BaseURL + $"/{level.ToString()}"));
             request.downloadHandler = new DownloadHandlerBuffer();
 
             Debug.Log("Sending got request.....");
+            Debug.Log($"Request Link: {request.url}");
             yield return request.SendWebRequest();
 
             Debug.Log($"Get all players response code: {request.responseCode}");
@@ -112,8 +113,13 @@ public class One_Pokemon : MonoBehaviour
                     //Specific Function Calls
                     Debug.Log($"name: {Query_List.pokemon[0].name}");
 
-                    //PokemonDetailedInfo.instance.AlterDescriptiveData(Query_List.pokemon);
+                    //if (PokemonDetailedInfo.instance == null)
+                    //{
+                    //    Debug.LogError("Big Bugs");
+                    //}
 
+                    PokemonDetailedInfo.instance.AlterDescriptiveData(Query_List.pokemon);
+                    PokemonDetailedInfo.instance.RegisterLevel(Query_List.stats[0]);
 
                }
             }
@@ -124,17 +130,19 @@ public class One_Pokemon : MonoBehaviour
                 Debug.LogWarning("Empty");
             }
 
-            Debug.LogWarning("done Processing");
+            //Debug.LogWarning("done Processing");
 
         }
 
+
+        
         //throw new NotImplementedException();
         yield return null;
     }
             // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetOnePokemon(12));
+        //StartCoroutine(GetOnePokemon(21));
     }
 
     // Update is called once per frame

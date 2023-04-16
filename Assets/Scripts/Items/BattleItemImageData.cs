@@ -29,6 +29,6 @@ public class BattleItemImageData : MonoBehaviour
         //Do Web Request
 
         //Do SomeSinglePattern that reference the pokemon name
-        MainUIBehaviour.instance.OnSwitchBattleItemDetail();
+        MainUIBehaviour.Instance.OnSwitchBattleItemDetail();
     }
 }

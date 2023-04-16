@@ -6,7 +6,10 @@ using TMPro;
 
 public class MainUIBehaviour : MonoBehaviour
 {
-    public static MainUIBehaviour instance;
+    public static MainUIBehaviour Instance
+    {
+        get; private set;
+    }
 
 
     [Header("Tab Section")]
@@ -44,8 +47,8 @@ public class MainUIBehaviour : MonoBehaviour
 
     void CreateSingleton()
     {
-        if (instance == null)
-            instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Destroy(gameObject);
 
