@@ -13,6 +13,10 @@ public class UniversalWebAPI : MonoBehaviour
     [SerializeField] private WebAPI pokemonAll;
     [SerializeField] private One_Pokemon pokemonSpecific;
 
+    [Header("Item Data")]
+    [SerializeField] private ItemRequest itemRequest;
+    
+
     private void Awake()
     {
         CreateSingleton();
@@ -29,11 +33,25 @@ public class UniversalWebAPI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(pokemonAll.GetAllPokemon());
+        StartCoroutine(itemRequest.RetrieveAllItems());
+        //itemRequest.LoadAll();
+
+        //StartCoroutine(itemRequest.RetrieveBattleItem(2, true));
     }
 
     public void FindSpecificPokemon(int pokemonID)
     {
         StartCoroutine(pokemonSpecific.GetOnePokemon(pokemonID));
+    }
+
+    public void FindSpecificBattleItem(int battleId)
+    {
+        StartCoroutine(itemRequest.RetrieveBattleItem(battleId));
+    }
+
+    public void FindSpecificHeld(int heldId)
+    {
+        StartCoroutine(itemRequest.RetrieveHeldItemm(heldId));
     }
 }

@@ -12,20 +12,22 @@ public class BattleItemDetailedInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cooldownTxt;
     [SerializeField] private TextMeshProUGUI flavorText;
 
-    public void AlterDescriptiveData(Dictionary<string, object> BattleItemData)
+    public void AlterDescriptiveData(Battle_Item_Specific battleItemData)
     {
-        if (BattleItemData == null)
+        if (battleItemData == null)
             Debug.LogError("Missing Battle Item Data");
 
         else
         {
             //Header Change
-            headerBattleItemNameTxt.text = "";
+            headerBattleItemNameTxt.text = battleItemData.name;
             //Call Singleton Function that will insert the image
+            battleItemImage.sprite = BattleImageManager.Instance.RetrieveSprite(battleItemData.battleid); 
+
 
             //Do Function that will parse everything = Need The Dictionary method
-            cooldownTxt.text = "" + "s";
-            flavorText.text = "";
+            cooldownTxt.text = battleItemData.cooldown.ToString() + "s";
+            flavorText.text = battleItemData.description;
         }
     }
 

@@ -27,8 +27,8 @@ public class SpriteData
 
 public class ColumnDefinition
 {
-    public string name;
-    public string type;
+    public string ?name;
+    public string ?type;
 }
 
 public class WebAPI : MonoBehaviour
@@ -112,7 +112,7 @@ public class WebAPI : MonoBehaviour
             // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetAllPokemon());
+        //StartCoroutine(GetAllPokemon());
     }
 
     // Update is called once per frame

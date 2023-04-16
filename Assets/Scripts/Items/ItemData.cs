@@ -67,16 +67,16 @@ public class ItemData : MonoBehaviour
         heldItemHolder.Add(copy);
     }
 
-    private void SpawnBattleParameters(string pokemonName)
+    private void SpawnBattleParameters(string battleName)
     {
         GameObject copy = Instantiate(spawnableBattleImage);
 
         if (copy.GetComponent<BattleItemImageData>() == null)
             Debug.LogError("Missing  Battle Item Data Component");
         else
-            copy.GetComponent<BattleItemImageData>().OnRegisterName(pokemonName);
+            copy.GetComponent<BattleItemImageData>().OnRegisterName(battleName);
 
-        copy.transform.SetParent(spawnHeldLocation.transform, false);
+        copy.transform.SetParent(spawnBattleLocation.transform, false);
         heldItemHolder.Add(copy);
     }
 
@@ -95,36 +95,37 @@ public class ItemData : MonoBehaviour
 
     //Spawn Specifics
     
-    public void SpawnHeldItems(List<Dictionary<string, object>> spawnData)
+    public void SpawnHeldItems()
     {
-        
-        foreach (Dictionary<string, object> heldItem in spawnData) 
+        List<int> nameId = HeldImageManager.Instance.RetrieveAllId();
+
+        foreach (int i in nameId) 
         {
             //Call the spawning function
-            if (heldItem[""] == null)
+            if (i == null)
                 Debug.LogError("Missing Held Item Data");
 
             else
             {
-                SpawnHeldParameters(System.Convert.ToString(heldItem[""])); //Spawn Tag
+                SpawnHeldParameters(HeldImageManager.Instance.RetrievePokemonName(i)); //Spawn Tag
             }
 
            
         }
     }
 
-    public void SpawnBattleItems(List<Dictionary<string, object>> spawnData)
+    public void SpawnBattleItems()
     {
-
-        foreach (Dictionary<string, object> battleItem in spawnData)
+        List<int> nameId = BattleImageManager.Instance.RetrieveAllId();
+        foreach (int i in nameId)
         {
             //Call the spawning function
-            if (battleItem[""] == null)
+            if (i == null)
                 Debug.LogError("Missing Held Item Data");
 
             else
             {
-                SpawnBattleParameters(System.Convert.ToString(battleItem[""])); //Spawn Tag
+                SpawnBattleParameters(BattleImageManager.Instance.RetrievePokemonName(i)); //Spawn Tag
             }
         }
     }

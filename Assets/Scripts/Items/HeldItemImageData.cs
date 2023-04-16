@@ -27,6 +27,7 @@ public class HeldItemImageData : MonoBehaviour
         //Do WebRequest which is IEnumerator
 
         //Do SomeSinglePattern that reference the pokemon name
+        UniversalWebAPI.Instance.FindSpecificHeld(HeldImageManager.Instance.RetrievePokemonId(heldItemName));
         MainUIBehaviour.Instance.OnSwitchHeldItemDetail();
     }
 }

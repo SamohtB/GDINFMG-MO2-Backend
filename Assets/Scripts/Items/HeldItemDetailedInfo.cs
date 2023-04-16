@@ -14,25 +14,31 @@ public class HeldItemDetailedInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI flavorText;
     [SerializeField] private TextMeshProUGUI levelPartitionTxt;
 
-    public void AlterDescriptiveData(Dictionary<string, object> HeldItemData1,
-        Dictionary<string, object> HeldItemData2, 
-        Dictionary<string, object> HeldItemData3)
+    public void AlterDescriptiveData(Held_Item_Specific heldItemData)
     {
-        if (HeldItemData1 == null || HeldItemData2 == null || HeldItemData3 == null)
+        if (heldItemData == null)
             Debug.LogError("Missing Held Item Data");
 
         else
         {
             //Header Change
-            heldItemHeader.text = "";
+            heldItemHeader.text = heldItemData.name;
+
             //Call Singleton Function that will insert the image
-            heldItemImage.sprite = null;
+            heldItemImage.sprite = HeldImageManager.Instance.RetrieveSprite(heldItemData.heldid);
 
             //Do Function that will parse everything = Need The Dictionary method
-            stats1Txt.text = "";
-            stats2Txt.text = "";
-            flavorText.text = "";
-            levelPartitionTxt.text = "1" + " / " + "2" + " / " + "3" + " / ";
+            stats1Txt.text = heldItemData.attrib1type + ": " + heldItemData.attrib1val.ToString();
+
+            if (heldItemData.attrib2type != null)
+                stats2Txt.text = heldItemData.attrib2type + ": " + heldItemData.attrib2val.ToString();
+
+            else
+                stats2Txt.text = "";
+
+            flavorText.text = heldItemData.description;
+            levelPartitionTxt.text = heldItemData.tier1val + "% / " + heldItemData.tier10val + "% / " 
+                + heldItemData.tier1val + "% " + heldItemData.tierattributeType;
         }
     }
 }

@@ -29,6 +29,7 @@ public class BattleItemImageData : MonoBehaviour
         //Do Web Request
 
         //Do SomeSinglePattern that reference the pokemon name
+        UniversalWebAPI.Instance.FindSpecificBattleItem(BattleImageManager.Instance.RetrievePokemonId(battleItemName));
         MainUIBehaviour.Instance.OnSwitchBattleItemDetail();
     }
 }

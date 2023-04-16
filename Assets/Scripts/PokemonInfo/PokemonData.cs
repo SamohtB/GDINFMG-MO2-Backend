@@ -42,6 +42,7 @@ public class PokemonData : MonoBehaviour
     {
         //Todo: Unity Web Request handling for default image
         Dictionary<int, string> allPokemon = PokemonImageManager.Instance.RetrieveAllData();
+
         List<int> allPokemonId = PokemonImageManager.Instance.RetrieveAllId();
         foreach(int pokemonID in allPokemonId)
         {
